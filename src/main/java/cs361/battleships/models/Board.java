@@ -14,7 +14,7 @@ public class Board {
 	 */
 	public Board() {
 
-		attack = new ArrayList<>();
+		attacks = new ArrayList<>();
 		ships = new ArrayList<>();
 	}
 
@@ -24,7 +24,7 @@ public class Board {
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
         //get the length of the ship to check all possible values and to use in loops
         int length = 0;
-        if(ship.getKind().equals("MINDSWEEPER")){
+        if(ship.getKind().equals("MINESWEEPER")){
             length = 2;
         } else if(ship.getKind().equals("DESTROYER")){
             length = 3;
@@ -52,12 +52,10 @@ public class Board {
                 }
             } else {
                 //check all the columns to the right
-                for(int i = 0; i < length; i++){
+                for(int i = 1; i < length; i++){
                     int newCol = Character.getNumericValue(y);
                     newCol = newCol+i;
                     attempt.setColumn((char)newCol);
-                    System.out.print("Hello");
-                    System.out.print((char)newCol);
                     if(s.getOccupiedSquares().contains(attempt)){
                         return false;
                     }
@@ -67,10 +65,27 @@ public class Board {
 
             int colNum = Character.getNumericValue(y);
 
+            //out of board bounds
             if(x > 9 || x < 0 || colNum > 74 || colNum < 65){
                 return false;
             }
         }
+
+        //all ships on the board have been checked, add ship to all ships list
+        ship.setOccupiedSquares(x, y);
+        for(int i = 1; i < length; i++){
+            if(isVertical){
+                //vertical ship adds the rows above the current square
+                int newRow = x+i;
+                ship.setOccupiedSquares(newRow, y);
+            } else {
+                //horizontal ships add all the rows to the right
+                int newCol = Character.getNumericValue(y) + i;
+                char col = (char)newCol;
+                ship.setOccupiedSquares(x, col);
+            }
+        }
+
         all.add(ship);
         setShips(all);
         return true;
@@ -135,12 +150,11 @@ public class Board {
 		this.ships = ships;
 	}
 
-
 	public List<Result> getAttacks() {
 		return this.attacks;
 	}
 
 	public void setAttacks(List<Result> attacks) {
-		this.attack.addAll(attacks);
+		this.attacks.addAll(attacks);
 	}
 }
