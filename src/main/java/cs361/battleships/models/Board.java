@@ -5,12 +5,14 @@ import java.util.List;
 
 public class Board {
 
+	private List<Result> attacks;
 	private List<Result> attack;
 	private List<Ship> ships;
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Board() {
+		attacks = new ArrayList<Result>();
 		attack = new ArrayList<Result>();
 		ships = new ArrayList<Ship>();
 	}
@@ -19,8 +21,58 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
-		// TODO Implement
-		return false;
+        //get the length of the ship to check all possible values and to use in loops
+        int length = 0;
+        if(ship.getKind().equals("MINDSWEEPER")){
+            length = 2;
+        } else if(ship.getKind().equals("DESTROYER")){
+            length = 3;
+        } else if(ship.getKind().equals("BATTLESHIP")){
+            length = 4;
+        } else {
+            return false;
+        }
+
+        //set an attempt square and store all the ships in a variable to compare
+        Square attempt = new Square(x,y);
+        List<Ship> all = this.getShips();
+        for(Ship s : all)
+        {
+            if (s.getOccupiedSquares().contains(attempt)) {
+                return false;
+            }
+            if(isVertical) {
+                //check all the squares above
+                for (int i = 1; i < length; i++) {
+                    attempt.setRow(x-1);
+                    if (s.getOccupiedSquares().contains(attempt)){
+                        return false;
+                    }
+                }
+            } else {
+                //check all the columns to the right
+                for(int i = 0; i < length; i++){
+                    int newCol = Character.getNumericValue(y);
+                    newCol = newCol+i;
+                    attempt.setColumn((char)newCol);
+                    System.out.print("Hello");
+                    System.out.print((char)newCol);
+                    if(s.getOccupiedSquares().contains(attempt)){
+                        return false;
+                    }
+
+                }
+            }
+
+            int colNum = Character.getNumericValue(y);
+
+            if(x > 9 || x < 0 || colNum > 74 || colNum < 65){
+                return false;
+            }
+        }
+        all.add(ship);
+        setShips(all);
+        return true;
 	}
 
 	/*
@@ -36,11 +88,11 @@ public class Board {
 	}
 
 	public void setShips(List<Ship> ships) {
-		this.ships.addAll(ships);
+		this.ships = ships;
 	}
 
 	public List<Result> getAttacks() {
-		return this.attack;
+		return this.attacks;
 	}
 
 	public void setAttacks(List<Result> attacks) {
