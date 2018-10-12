@@ -51,20 +51,24 @@ public class Game {
     }
 
     private char randCol() {
-        int tempcol= rand.nextInt(10);
-        tempcol=tempcol+65;
-        char col = (char) tempcol;
+        int tempcol= rand.nextInt(10); //generate random value between 0 and 9
+        tempcol=tempcol+65; //ADD 65 to get to ascii values for uppercase letters
+        char col = (char) tempcol; //cast to a char
         return col;
     }
 
     private int randRow() {
         int row= rand.nextInt(10);
-        row++;
+        row++;//add one so the range is 1-10 instead of 0-9
         return row;
     }
 
     private boolean randVertical() {
-        // TODO implement
-        return false;
+        int fiftyfifty=rand.nextInt(2);//0 or 1 gives a fifty fifty chance of vertical or not
+        if(fiftyfifty==0){
+            return false;
+        }else{
+            return true;
+        }
     }
 }
