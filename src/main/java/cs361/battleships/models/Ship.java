@@ -16,6 +16,10 @@ public class Ship {
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
 	}
+	
+	public void setOccupiedSquares(int row, char col){
+		occupiedSquares.add(new Square(row, col));
+	}
 
 	public String getKind() {
 		return this.kind;
