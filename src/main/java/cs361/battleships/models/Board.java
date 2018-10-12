@@ -3,6 +3,8 @@ package cs361.battleships.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cs361.battleships.models.AtackStatus.*;
+
 public class Board {
 
 	private List<Result> attacks;
@@ -78,8 +80,50 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
-		//TODO Implement
-		return null;
+		attacks.add(new Result);
+		int where = attacks.size() - 1;
+		for(int i=0; i<ships.size(); i++) {    //search through the ships
+			for(int j=0; j<ships.get(i).getOccupiedSquares().size(); j++) {    //search through the squares of each ship
+				if ((ships.get(i).getOccupiedSquares().get(j).getRow() == x) && (ships.get(i).getOccupiedSquares().get(j).getColumn() == y)) {
+					ships.get(i).removeOccupiedSquares(row, col);
+					if (checkSunk(ships.get(i), ships, i) && checkSurrender(ships)) {
+						attacks.get(where).setResult(SURRENDER);
+						attacks.get(where).setShip(ships.get(i));
+						attacks.get(where).setLocation(ships.get(i).getOccupiedSquares(j));
+						return attacks.get(where);
+					} else if (checkSunk() && !checkSurrender()) {
+						attacks.get(where).setResult(SUNK);
+						attacks.get(where).setShip(ships.get(i));
+						attacks.get(where).setLocation(ships.get(i).getOccupiedSquares(j));
+						return attacks.get(where);
+					} else if (!checkSunk() && !checkSurrender()) {
+						attacks.get(where).setResult(HIT);
+						attacks.get(where).setShip(ships.get(i));
+						attacks.get(where).setLocation(ships.get(i).getOccupiedSquares(j));
+						return attacks.get(where);
+					}
+				}
+			}
+		}
+		attacks.get(where).setResult(MISS);
+		attacks.get(where).setLocation(new Square(x, y));
+		attacks.get(where).setShip(null);
+		return attacks.get(where);
+	}
+
+	public boolean checkSunk(Ship ship, List<Ship> ships, int i) {
+		if(ship.getOccupiedSquares().size() == 0) {
+			ships.remove(i);
+		   return true;
+		}
+		return false;
+	}
+
+	public boolean checkSurrender(List<Ship> ships) {
+		if(ships.size() == 0) {
+		   return true;
+		}
+		return false;
 	}
 
 	public List<Ship> getShips() {
