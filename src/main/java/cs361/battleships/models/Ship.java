@@ -10,6 +10,7 @@ public class Ship {
 	
 	public Ship(String kind) {
 		//TODO implement
+		//this is a comment to save a change
 	}
 
 	public List<Square> getOccupiedSquares() {
