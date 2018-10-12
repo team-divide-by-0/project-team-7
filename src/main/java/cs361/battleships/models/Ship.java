@@ -21,9 +21,9 @@ public class Ship {
 		occupiedSquares.add(new Square(row, col));
 	}
 
-	public void setKind(String kind) = {
+	public void setKind(String kind) {
 			this.kind = kind;
-	};
+	}
 
 	public String getKind() {
 		return this.kind;
