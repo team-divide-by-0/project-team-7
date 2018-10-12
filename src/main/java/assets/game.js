@@ -63,8 +63,8 @@ function registerCellListener(f) {
 }
 
 function cellClick() {
-    let row = this.parentNode.rowIndex;
-    let col = this.cellIndex;
+    let row = this.parentNode.rowIndex + 1;
+    let col = String.fromCharCode(this.cellIndex + 65);
     if (isSetup) {
         sendXhr("POST", "/place", {game: game, shipType: shipType, x: row, y: col, isVertical: vertical}, function(data) {
             game = data;

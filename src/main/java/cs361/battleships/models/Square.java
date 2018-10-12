@@ -6,6 +6,11 @@ public class Square {
 	private int row;
 	private char column;
 
+	public Square(){
+		this.row=0;
+		this.column = 'x';
+	}
+
 	public Square(int row, char column) {
 		this.row = row;
 		this.column = column;
