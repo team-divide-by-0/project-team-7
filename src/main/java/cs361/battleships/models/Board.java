@@ -169,6 +169,7 @@ public class Board {
         return false;
     }
 
+
 	public List<Ship> getShips() {
 		return this.ships;
 	}
