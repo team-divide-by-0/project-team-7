@@ -11,7 +11,6 @@ public class Ship {
 	
 	public Ship(String kind) {
 		this.kind = kind;
-		this.sunk = false;
 	}
 
 	public List<Square> getOccupiedSquares() {
