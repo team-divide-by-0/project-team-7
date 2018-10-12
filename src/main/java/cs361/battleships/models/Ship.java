@@ -11,11 +11,14 @@ public class Ship {
 	
 	public Ship(String kind) {
 		this.kind = kind;
-		this.sunk = false;
 	}
 
 	public List<Square> getOccupiedSquares() {
 		return occupiedSquares;
+	}
+	
+	public void setOccupiedSquares(int row, char col){
+		occupiedSquares.add(new Square(row, col));
 	}
 
 	public String getKind() {
