@@ -33,4 +33,13 @@ public class Ship {
 	public String getKind() {
 		return this.kind;
 	}
+    public void removeOccupiedSquares(int row, int column) {
+        for (int i=0; i < occupiedSquares.size(); i++){
+            if (occupiedSquares.get(i).getColumn()== column && occupiedSquares.get(i).getRow()==row){//finding the square with the given row and column
+                occupiedSquares.remove(i); //removing found square
+                break;
+            }
+        }
+
+    }
 }
