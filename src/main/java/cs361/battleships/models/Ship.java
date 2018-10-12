@@ -7,14 +7,17 @@ import java.util.List;
 public class Ship {
 
 	@JsonProperty private List<Square> occupiedSquares;
+	private String kind;
 	
 	public Ship(String kind) {
-		//TODO implement
-		//this is a comment to save a change
+		this.kind = kind;
 	}
 
 	public List<Square> getOccupiedSquares() {
-		//TODO implement
-		return null;
+		return occupiedSquares;
+	}
+
+	public String getKind() {
+		return this.kind;
 	}
 }
