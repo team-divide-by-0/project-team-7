@@ -69,6 +69,9 @@ public class Board {
                 return false;
             }
         }
+
+        ship.setOccupiedSquares(x, y, isVertical);
+        ship.setKind(kind);
         all.add(ship);
         setShips(all);
         return true;
