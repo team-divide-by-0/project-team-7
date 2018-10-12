@@ -6,6 +6,7 @@ public class Result {
 	private Ship ship;
 	private Square location;
 
+
 	public AtackStatus getResult() {
 		return this.status;
 	}

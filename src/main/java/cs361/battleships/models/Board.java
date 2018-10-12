@@ -20,6 +20,7 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
+	    ship = new Ship(ship.getKind());
         //get the length of the ship to check all possible values and to use in loops
         int length = 0;
         if(ship.getKind().equals("MINESWEEPER")){
@@ -51,7 +52,7 @@ public class Board {
             } else {
                 //check all the columns to the right
                 for(int i = 1; i < length; i++){
-                    int newCol = Character.getNumericValue(y);
+                    int newCol = y;
                     newCol = newCol+i;
                     attempt.setColumn((char)newCol);
                     if(s.getOccupiedSquares().contains(attempt)){
@@ -61,7 +62,7 @@ public class Board {
                 }
             }
 
-            int colNum = Character.getNumericValue(y);
+            int colNum = y;
 
             //out of board bounds
             if(x > 9 || x < 0 || colNum > 74 || colNum < 65){
@@ -78,7 +79,7 @@ public class Board {
                 ship.setOccupiedSquares(newRow, y);
             } else {
                 //horizontal ships add all the rows to the right
-                int newCol = Character.getNumericValue(y) + i;
+                int newCol = y + i;
                 char col = (char)newCol;
                 ship.setOccupiedSquares(x, col);
             }
