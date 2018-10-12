@@ -1,7 +1,10 @@
 package cs361.battleships.models;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
+
+import static cs361.battleships.models.AtackStatus.*;
 
 public class Board {
 
@@ -94,9 +97,77 @@ public class Board {
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public Result attack(int x, char y) {
-		//TODO Implement
-		return null;
-	}
+	    //System.out.print("in function\n");
+        if((x < 1 || x > 10) || (y < 'A' || y > 'J')){
+            Result res=new Result();
+            res.setResult(INVALID);
+            res.setShip(null);
+            Square sq = new Square(0, 'x');
+            res.setLocation(sq);
+            return res;
+        }
+        for(int i=0; i<attacks.size(); i++){
+            if(x == attacks.get(i).getLocation().getRow() && y == attacks.get(i).getLocation().getColumn()){
+                Result res=new Result();
+                res.setResult(INVALID);
+                res.setShip(null);
+                Square sq = new Square(0, 'x');
+                res.setLocation(sq);
+                return res;
+            }
+        }
+        attacks.add(new Result());
+        int where = attacks.size() - 1;
+        for(int i=0; i<ships.size(); i++) {    //search through the ships
+            //System.out.print(i);
+            for(int j=0; j<ships.get(i).getOccupiedSquares().size(); j++) {    //search through the squares of each ship
+               // System.out.print(j);
+                //System.out.print('\n');
+                if ((ships.get(i).getOccupiedSquares().get(j).getRow() == x) && (ships.get(i).getOccupiedSquares().get(j).getColumn() == y)) {
+                    if (checkSunk(ships.get(i), ships, i) && checkSurrender(ships)) {
+                        System.out.print("HERE\n");
+                        attacks.get(where).setResult(SURRENDER);
+                        attacks.get(where).setShip(ships.get(i));
+                        attacks.get(where).setLocation(ships.get(i).getOccupiedSquares().get(j));
+                        ships.get(i).removeOccupiedSquares(x, y);
+                        ships.remove(i);
+                        return attacks.get(where);
+                    } else if (checkSunk(ships.get(i), ships, i) && !checkSurrender(ships)) {
+                        System.out.print("HEREHERE\n");
+                        attacks.get(where).setResult(SUNK);
+                        attacks.get(where).setShip(ships.get(i));
+                        attacks.get(where).setLocation(ships.get(i).getOccupiedSquares().get(j));
+                        ships.get(i).removeOccupiedSquares(x, y);
+                        return attacks.get(where);
+                    } else if (!checkSunk(ships.get(i), ships, i) && !checkSurrender(ships)) {
+                        attacks.get(where).setResult(HIT);
+                        attacks.get(where).setShip(ships.get(i));
+                        attacks.get(where).setLocation(ships.get(i).getOccupiedSquares().get(j));
+                        ships.get(i).removeOccupiedSquares(x, y);
+                        return attacks.get(where);
+                    }
+                }
+            }
+        }
+        attacks.get(where).setResult(MISS);
+        attacks.get(where).setLocation(new Square(x, y));
+        attacks.get(where).setShip(null);
+        return attacks.get(where);
+    }
+
+    public boolean checkSunk(Ship ship, List<Ship> ships, int i) {
+        if(ship.getOccupiedSquares().size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkSurrender(List<Ship> ships){
+	    if(ships.size() == 0){
+	        return true;
+        }
+        return false;
+    }
 
 	public List<Ship> getShips() {
 		return this.ships;
