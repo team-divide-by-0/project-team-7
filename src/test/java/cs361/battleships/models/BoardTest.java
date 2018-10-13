@@ -1,11 +1,15 @@
 package cs361.battleships.models;
 
 import org.junit.Test;
+import static cs361.battleships.models.AtackStatus.*;
+
+
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static cs361.battleships.models.AtackStatus.*;
+
+
 
 public class BoardTest {
 
@@ -79,5 +83,45 @@ public class BoardTest {
         for (int i=0; i<os.size();i++){
             assertEquals(os.get(i).getColumn(),'G');
         }
+    }
+
+    @Test
+    public void testHit(){
+        Board board = new Board();
+        Ship ship = new Ship("DESTROYER");
+        board.placeShip(ship, 1, 'A', false);
+        Result res = board.attack(1, 'A');
+        assertEquals(HIT, res.getResult());
+    }
+
+    @Test
+    public void testMiss(){
+        Board board = new Board();
+        Ship ship = new Ship("DESTROYER");
+        board.placeShip(ship, 1, 'A', false);
+        Result res = board.attack(1, 'D');
+        assertEquals(MISS, res.getResult());
+    }
+
+    @Test
+    public void testSunk(){
+        Board board = new Board();
+        Ship ship = new Ship("MINESWEEPER");
+        Ship ship2 = new Ship("MINESWEEPER");
+        board.placeShip(ship, 1, 'A', false);
+        board.placeShip(ship2, 2, 'A', false);
+        board.attack(1, 'A');
+        Result res = board.attack(1, 'B');
+        assertEquals(SUNK, res.getResult());
+    }
+
+    @Test
+    public void testSurrender(){
+        Board board = new Board();
+        Ship ship = new Ship("MINESWEEPER");
+        board.placeShip(ship, 1, 'A', false);
+        board.attack(1, 'A');
+        Result res = board.attack(1, 'B');
+        assertEquals(SURRENDER, res.getResult());
     }
 }
