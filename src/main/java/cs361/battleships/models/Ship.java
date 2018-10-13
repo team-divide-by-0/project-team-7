@@ -22,8 +22,8 @@ public class Ship {
 		return occupiedSquares;
 	}
 	
-	public void setOccupiedSquares(int row, char col){
-		occupiedSquares.add(new Square(row, col));
+	public void setOccupiedSquares(ArrayList<Square> sqs){
+		this.occupiedSquares = sqs;
 	}
 
 	public void setKind(String kind) {
