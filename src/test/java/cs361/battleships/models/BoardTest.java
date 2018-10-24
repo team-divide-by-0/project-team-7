@@ -17,13 +17,30 @@ public class BoardTest {
     }
 
     @Test
-    public void testInvalidPlacement() {
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 11, 'C', true));
+    public void testPlaceMinesweeper() {
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
+        assertFalse(board.placeShip(new Ship("DESTROYER"), 0, 'A', true));
+        //this tests when the ship goes off the board horizontally
+        assertFalse(board.placeShip(new Ship("BATTLESHIP"), 4, 'I', false));
+        //this tests when the ship goes off the board vertically
+        assertFalse(board.placeShip(new Ship("BATTLESHIP"), 9, 'B', true));
     }
 
     @Test
-    public void testPlaceMinesweeper() {
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
+    public void testValidPlacement(){
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 4, 'B', false));
+        assertTrue(board.placeShip(new Ship("DESTROYER"), 5, 'G', true));
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"), 1, 'A', false));
+    }
+
+    @Test
+    public void testSameShip(){
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false));
+        assertTrue(board.placeShip(new Ship("DESTROYER"), 5, 'C', false));
+        assertFalse(board.placeShip(new Ship("DESTROYER"), 3, 'C', true));
     }
 
     @Test
