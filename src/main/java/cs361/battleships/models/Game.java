@@ -12,7 +12,7 @@ public class Game {
 
     @JsonProperty private Board playersBoard = new Board();
     @JsonProperty private Board opponentsBoard = new Board();
-    Random rand = new Random();
+
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -25,7 +25,7 @@ public class Game {
         do {
             // AI places random ships, so it might try and place overlapping ships
             // let it try until it gets it right
-            opponentPlacedSuccessfully = opponentsBoard.placeShip(new Ship(ship.getKind()), randRow(), randCol(), randVertical());
+            opponentPlacedSuccessfully = opponentsBoard.placeShip(ship, randRow(), randCol(), randVertical());
         } while (!opponentPlacedSuccessfully);
 
         return true;
@@ -51,24 +51,15 @@ public class Game {
     }
 
     private char randCol() {
-        int tempcol= rand.nextInt(10); //generate random value between 0 and 9
-        tempcol=tempcol+65; //ADD 65 to get to ascii values for uppercase letters
-        char col = (char) tempcol; //cast to a char
-        return col;
+        int random = new Random().nextInt(10);
+        return (char) ('A' + random);
     }
 
     private int randRow() {
-        int row= rand.nextInt(10);
-        row++;//add one so the range is 1-10 instead of 0-9
-        return row;
+        return  new Random().nextInt(10) + 1;
     }
 
     private boolean randVertical() {
-        int fiftyfifty=rand.nextInt(2);//0 or 1 gives a fifty fifty chance of vertical or not
-        if(fiftyfifty==0){
-            return false;
-        }else{
-            return true;
-        }
+        return new Random().nextBoolean();
     }
 }
