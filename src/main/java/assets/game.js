@@ -15,12 +15,6 @@ function makeGrid(table, isPlayer) {
         }
         table.appendChild(row);
     }
-
-    var border = document.createElement('div');
-    border.setAttribute("id", "border");
-    border.appendChild(table);
-    var container = document.getElementsByClassName('container')[0];
-    container.appendChild(border);
 }
 
 function markHits(board, elementId, surrenderText) {
