@@ -60,3 +60,29 @@ td:hover {
 .miss {
     background-color: blue;
 }
+
+h3{
+    font-family: 'Teko', sans-serif;
+    text-decoration: underline;
+    font-size: 200%;
+    position: relative;
+    bottom: 400px;
+    left: 950px;
+}
+#ship_buttons{
+    list-style-type: none;
+    position: relative;
+    bottom: 440px;
+    left: 908px;
+}
+
+button{
+    font-size: 110%;
+    font-weight: 700;
+    background: none;
+    border: none;
+    margin-top: 5px;
+}
+ .fa-square-full{
+    margin-right:1px;
+ }
