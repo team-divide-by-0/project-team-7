@@ -1,5 +1,7 @@
 <#import "../layout/defaultLayout.ftl.html" as layout> 
-<@layout.myLayout "Home page">    
+<@layout.myLayout "Home page">
+<link href="https://fonts.googleapis.com/css?family=Teko:500" rel="stylesheet">
+<script src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" defer> </script>
 
 
 <h1>B A T T L E S H I P</h1>
@@ -15,11 +17,12 @@
 </table>
 </div>
 
-<ul>
-    <li><button id="place_minesweeper">Place Minesweeper</button></li>
-    <li><button id="place_destroyer">Place Destroyer</button></li>
-    <li><button id="place_battleship">Place Battleship</button></li>
-    <li><input type="checkbox" id="is_vertical">Vertical</input></li>
+<h3>Place Your Ships</h3>
+<ul id="ship_buttons">
+    <li><button id="place_minesweeper">MINESWEEPER   <i class="fas fa-square-full"></i><i class="fas fa-square-full"></i></button></li>
+    <li><button id="place_destroyer">DESTROYER   <i class="fas fa-square-full"></i><i class="fas fa-square-full"></i><i class="fas fa-square-full"></i></button></li>
+    <li><button id="place_battleship">BATTLESHIP    <i class="fas fa-square-full"></i><i class="fas fa-square-full"></i><i class="fas fa-square-full"></i><i class="fas fa-square-full"></i></button></li>
+    <li><button id="is_vertical">Rotate 90&deg   <i class="fas fa-undo"></i></button></li>
 </ul>
 
 <script type="text/javascript" src="/assets/game.js"></script>

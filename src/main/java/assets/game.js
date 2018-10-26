@@ -102,7 +102,7 @@ function place(size) {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
-        vertical = document.getElementById("is_vertical").checked;
+        //vertical = document.getElementById("is_vertical").checked;
         let table = document.getElementById("player");
         for (let i=0; i<size; i++) {
             let cell;
@@ -139,6 +139,13 @@ function initGame() {
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
        registerCellListener(place(4));
+    });
+    document.getElementById("is_vertical").addEventListener("click", function(e){
+        if(vertical){
+            vertical=false;
+        }else{
+            vertical=true;
+        }
     });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
