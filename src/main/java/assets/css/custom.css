@@ -5,19 +5,19 @@ body {
 
 }
 .direction-box {
-    background-color: #6e76dd;
+    background-color: #8D3535;
     border-style: solid;
     width: 300px;
     font-family: 'Bitter', serif;
     position: absolute;
-    left: 75px;
+    left: 60px;
     top: 300px;
 }
 
 .win-button{
     height: 15px;
     width: 15px;
-    background-color: red;
+    background-color: orange;
     border-style: solid;
     border-color: black;
 }
@@ -25,7 +25,7 @@ body {
 .lose-button{
     height: 15px;
     width: 15px;
-    background-color: white;
+    background-color: blue;
     border-style: solid;
     border-color: black;
 }
@@ -57,7 +57,7 @@ h1 {
     margin: -20px 0px 0px 28px;
     top: 41px;
     left: 25px;
-    background-color: #66d8f4;
+    background-color: white;
 }
 
 .battleGrid tr {
@@ -83,7 +83,7 @@ td:hover {
 }
 
 .hit {
-    background-color: red;
+    background-color: orange;
 }
 
 .sink {
@@ -91,7 +91,7 @@ td:hover {
 }
 
 .miss {
-    background-color: white;
+    background-color: blue;
 }
 
 h3{
