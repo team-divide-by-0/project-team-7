@@ -1,6 +1,36 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
+.direction-box {
+    background-color: #8D3535;
+    border-style: solid;
+    width: 300px;
+    font-family: 'Bitter', serif;
+    position: absolute;
+    left: 60px;
+    top: 300px;
+}
+
+.win-button{
+    height: 15px;
+    width: 15px;
+    background-color: orange;
+    border-style: solid;
+    border-color: black;
+}
+
+.lose-button{
+    height: 15px;
+    width: 15px;
+    background-color: blue;
+    border-style: solid;
+    border-color: black;
+}
+
+.title-thing{
+    list-style: none;
+}
+
 h1 {
  text-align: center;
  margin: 28px 0px 0px 0px;
