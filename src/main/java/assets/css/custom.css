@@ -1,6 +1,9 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
+body {
+    background-color: lightblue;
 
+}
 .direction-box {
     background-color: #8D3535;
     border-style: solid;
