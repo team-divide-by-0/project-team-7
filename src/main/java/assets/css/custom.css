@@ -1,16 +1,18 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
-h2 {
+h1 {
  text-align: center;
  margin: 28px 0px 0px 0px;
+ font-family: 'Orbitron', sans-serif;
+ font-size: 45px;
 }
 
 #border {
     background-color: #696969;
     position: relative;
-    left: 34%;
-    top: -25px;
+    left: 33%;
+    top: 60px;
     width: 450px;
     height: 380px;
 }
