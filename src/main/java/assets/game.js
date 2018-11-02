@@ -147,6 +147,9 @@ function initGame() {
             vertical=true;
         }
     });
+    document.getElementById("sonar_button").addEventListener("click", function(e){
+
+    });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
