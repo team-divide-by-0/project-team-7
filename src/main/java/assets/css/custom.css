@@ -73,6 +73,15 @@ td:hover {
     background-color: gray;
 }
 
+.sonar {
+    background-color: gray;
+}
+
+.current {
+    background-color: black;
+    border-radius: 100%;
+}
+
 .placed {
     background-color: gray;
 }

@@ -10,6 +10,7 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
+	private boolean showSonar;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -17,6 +18,7 @@ public class Board {
 	public Board() {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
+		showSonar = false;
 	}
 
 	/*
