@@ -3,6 +3,7 @@ var placedShips = 0;
 var game;
 var shipType;
 var vertical;
+var isSonar = false;
 
 function makeGrid(table, isPlayer) {
 
@@ -76,7 +77,8 @@ function cellClick() {
                 registerCellListener((e) => {});
             }
         });
-    } else {
+    }
+    else {
         sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
             game = data;
             redrawGrid();
@@ -107,7 +109,7 @@ function place(size) {
         for (let i=0; i<size; i++) {
             let cell;
             if(vertical) {
-                let tableRow = table.rows[row+i];
+             let tableRow = table.rows[row+i];
                 if (tableRow === undefined) {
                     // ship is over the edge; let the back end deal with it
                     break;
@@ -147,10 +149,72 @@ function initGame() {
             vertical=true;
         }
     });
-    document.getElementById("sonar_button").addEventListener("click", function(e){
-
+    let sonarBut = document.getElementById("sonar_button").addEventListener("click", function(e){
+        //if(sonarBut.classList.contains("hidden")){
+          //  sonarBut.classList.remove("hidden");
+            //isSonar = true;
+            //registerCellListener(sonar());
+        //} else{
+            //sonarBut.classList.add("hidden");
+       // }
+        isSonar = true;
+        registerCellListener(sonarHover());
     });
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
 };
+
+function sonarHover() {
+    return function() {
+        let row = this.parentNode.rowIndex;
+        let col = this.cellIndex;
+        let table = document.getElementById("player");
+        let cell;
+        //create the hover effect vertically
+        //start with the first column
+        for(let i=-2; i<3; i++){
+            let tableRow = table.rows[row+i];
+            if(tableRow == undefined){
+                break;
+            }
+            cell=tableRow.cells[col];
+            cell.classList.toggle("sonar");
+            //shade the columns for the outer square
+            if(i>-2 && i<2){
+               cell = tableRow.cells[col + 1];
+               //check each cell to clear console errors/if the radar goes off the board
+               if(cell == undefined){
+                    break;
+               }
+               cell.classList.toggle("sonar");
+               cell = tableRow.cells[col - 1];
+               if(cell == undefined){
+                    break;
+               }
+               cell.classList.toggle("sonar");
+               //if it is the middle row, add two additional cells to the list
+               if(i == 0){
+                    cell = tableRow.cells[col + 2];
+                    if(cell == undefined){
+                        break;
+                    }
+                    cell.classList.toggle("sonar");
+                    cell = tableRow.cells[col - 2];
+                    if(cell == undefined){
+                         break;
+                    }
+                    cell.classList.toggle("sonar");
+                    cell = tableRow.cells[col];
+                    if(cell == undefined){
+                        break;
+                    }
+                    //attempt to get the black circle in the middle -- doesn't work
+                    //let circle = document.createElement("div");
+                    //circle.className = "current";
+                    //cell.appendChild(circle);
+               }
+            }
+        }
+    }
+}
