@@ -73,6 +73,15 @@ td:hover {
     background-color: gray;
 }
 
+.sonar {
+    background-color: gray;
+}
+
+.current {
+    background-color: black;
+    border-radius: 100%;
+}
+
 .placed {
     background-color: gray;
 }
@@ -115,6 +124,12 @@ button{
     border: none;
     margin-top: 5px;
 }
+
+#sonar_image{
+    width: 30px;
+    height: 30px;
+}
+
  .fa-square-full{
     margin-right:1px;
  }
