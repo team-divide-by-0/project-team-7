@@ -12,9 +12,10 @@ import java.util.Set;
 
 public class Ship {
 
-	@JsonProperty private String kind;
+	@JsonProperty protected String kind;
 	@JsonProperty private List<Square> occupiedSquares;
 	@JsonProperty private int size;
+	protected int CaptainHitNum;
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
@@ -65,6 +66,18 @@ public class Ship {
 		return kind;
 	}
 
+	public Result attackCapsQuarters(){
+		//call attack captains quarters function
+		//call blow up ship
+		//if blow up ship returns true
+			//set every square in ship status to hit
+			//set captains quarters result to sunk
+			//return sunk
+		//if blow up ship is not true
+			//set captains quarters ships status to miss
+			//return miss
+	}
+
 	public Result attack(int x, char y) {
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
@@ -72,6 +85,8 @@ public class Ship {
 			return new Result(attackedLocation);
 		}
 		var attackedSquare = square.get();
+		//If Attacked Square is a Captain's Quarters call attack Caps Quarters
+		//else
 		if (attackedSquare.isHit()) {
 			var result = new Result(attackedLocation);
 			result.setResult(AtackStatus.INVALID);
