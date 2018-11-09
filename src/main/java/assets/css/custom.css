@@ -93,6 +93,10 @@ td:hover {
     background-color: gray;
 }
 
+.revealed {
+    background-color: gray;
+}
+
 .occupied {
     background-color: black;
 }

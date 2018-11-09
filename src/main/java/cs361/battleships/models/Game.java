@@ -39,7 +39,6 @@ public class Game {
         if (playerAttack.getResult() == INVALID) {
             return false;
         }
-
         Result opponentAttackResult;
         do {
             // AI does random attacks, so it might attack the same spot twice
@@ -61,5 +60,9 @@ public class Game {
 
     private boolean randVertical() {
         return new Random().nextBoolean();
+    }
+
+    public Board getOpponentsBoard(){
+        return opponentsBoard;
     }
 }
