@@ -4,6 +4,7 @@ var game;
 var shipType;
 var vertical;
 var isSonar = false;
+var trackFirstHit = 0;
 
 function makeGrid(table, isPlayer) {
 
@@ -16,17 +17,28 @@ function makeGrid(table, isPlayer) {
         }
         table.appendChild(row);
     }
+    document.getElementById('sonar_button').style.display='none';
 }
+
+
 
 function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
+
         if (attack.result === "MISS")
             className = "miss";
         else if (attack.result === "HIT")
             className = "hit";
-        else if (attack.result === "SUNK")
+        else if (attack.result === "SUNK"){
             className = "hit";
+            trackFirstHit++;
+            if (trackFirstHit >= 1){
+               var button = document.getElementById('sonar_button');
+               button.style.display='block';
+               console.log('At least I get here');
+            }
+        }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         else if (attack.result === "REVEALED")
@@ -37,6 +49,7 @@ function markHits(board, elementId, surrenderText) {
         //console.log(attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0));
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
+
 }
 
 function redrawGrid() {
@@ -169,6 +182,32 @@ function initGame() {
             vertical=true;
         }
     });
+<<<<<<< HEAD
+=======
+    var clicks = 0
+    let sonarBut = document.getElementById('sonar_button').addEventListener("click", function(e){
+    //is attack hit in miss
+    //if (attack.result === "HIT"){
+        //markHits(game.opponentsBoard, "opponent", "");
+    ++clicks;
+    if (clicks >= 2){
+        document.getElementById('sonar_button').style.display='none';
+    }
+    //}
+    //if the first enemy ship is hit then have the button
+    //document.getElementById("sonar_button").style.display='none';
+    // then count the clicks/usage and disappear after two
+        //if(sonarBut.classList.contains("hidden")){
+          //  sonarBut.classList.remove("hidden");
+            //isSonar = true;
+            //registerCellListener(sonar());
+        //} else{
+            //sonarBut.classList.add("hidden");
+       // }
+        isSonar = true;
+        registerCellListener(sonarHover());
+    });
+>>>>>>> 125d5b00f9b4f86aa6dd978d7eb9d22225d5ea2d
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
