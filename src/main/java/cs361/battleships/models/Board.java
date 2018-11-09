@@ -10,7 +10,7 @@ public class Board {
 
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
-	private boolean showSonar;
+	@JsonProperty private Sonar sonar;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -18,7 +18,7 @@ public class Board {
 	public Board() {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
-		showSonar = false;
+		sonar = new Sonar();
 	}
 
 	/*
@@ -53,13 +53,14 @@ public class Board {
 	}
 
 	private Result attack(Square s) {
-		if (attacks.stream().anyMatch(r -> r.getLocation().equals(s))) {
+		if (attacks.stream().anyMatch(r -> r.getResult() == AtackStatus.HIT)){
 			var attackResult = new Result(s);
 			attackResult.setResult(AtackStatus.INVALID);
 			return attackResult;
 		}
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
+			//returns in a MISS
 			var attackResult = new Result(s);
 			return attackResult;
 		}
@@ -75,5 +76,22 @@ public class Board {
 
 	List<Ship> getShips() {
 		return ships;
+	}
+
+	List<Result> getResults() { return attacks; }
+
+	public void activateSonar(int x, char y) {
+		List<Square> sonarSqs = sonar.getAllSquares(x, y);
+		Result tempResult;
+		for (var s : sonarSqs) {
+			tempResult = attack(s);
+			if(tempResult.getResult() == AtackStatus.MISS) {
+				tempResult.setResult(AtackStatus.REVEALED);
+				attacks.add((tempResult));
+			} else if(tempResult.getResult() == AtackStatus.HIT || tempResult.getResult() == AtackStatus.SUNK) {
+				tempResult.setResult(AtackStatus.OCCUPIED);
+				attacks.add((tempResult));
+			}
+		}
 	}
 }

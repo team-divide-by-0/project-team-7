@@ -49,7 +49,7 @@ public class Square {
 		return hit;
 	}
 
-	public void hit() {
+	public void hit(){
 		hit = true;
 	}
 

@@ -41,6 +41,12 @@ function markHits(board, elementId, surrenderText) {
         }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
+        else if (attack.result === "REVEALED")
+            className = "revealed";
+        else if (attack.result === "OCCUPIED")
+            className = "occupied";
+        //console.log(attack.location.row-1);
+        //console.log(attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0));
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
 
@@ -92,10 +98,18 @@ function cellClick() {
         });
     }
     else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-            game = data;
-            redrawGrid();
-        })
+        if(isSonar){
+            sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonar: true}, function(data) {
+                game = data;
+                redrawGrid();
+                isSonar = false;
+            })
+        } else {
+            sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonar: false}, function(data) {
+                            game = data;
+                            redrawGrid();
+                        })
+        }
     }
 }
 
@@ -140,6 +154,12 @@ function place(size) {
     }
 }
 
+let sonarBut = document.getElementById("sonar_button");
+sonarBut.addEventListener("click", function(e){
+    isSonar = true;
+    opponentCellListener(sonarHover());
+})
+
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
@@ -162,6 +182,8 @@ function initGame() {
             vertical=true;
         }
     });
+<<<<<<< HEAD
+=======
     var clicks = 0
     let sonarBut = document.getElementById('sonar_button').addEventListener("click", function(e){
     //is attack hit in miss
@@ -185,16 +207,32 @@ function initGame() {
         isSonar = true;
         registerCellListener(sonarHover());
     });
+>>>>>>> 125d5b00f9b4f86aa6dd978d7eb9d22225d5ea2d
     sendXhr("GET", "/game", {}, function(data) {
         game = data;
     });
 };
 
+var oldOppListener;
+function opponentCellListener(f) {
+    let el = document.getElementById("opponent");
+    for (i=0; i<10; i++) {
+        for (j=0; j<10; j++) {
+            let cell = el.rows[i].cells[j];
+            cell.removeEventListener("mouseover", oldOppListener);
+            cell.removeEventListener("mouseout", oldOppListener);
+            cell.addEventListener("mouseover", f);
+            cell.addEventListener("mouseout", f);
+        }
+    }
+    oldOppListener = f;
+}
+
 function sonarHover() {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
-        let table = document.getElementById("player");
+        let table = document.getElementById("opponent");
         let cell;
         //create the hover effect vertically
         //start with the first column
@@ -234,12 +272,9 @@ function sonarHover() {
                     if(cell == undefined){
                         break;
                     }
-                    //attempt to get the black circle in the middle -- doesn't work
-                    //let circle = document.createElement("div");
-                    //circle.className = "current";
-                    //cell.appendChild(circle);
                }
             }
         }
     }
+    sonarBut.removeEventListener("click", sonarHover());
 }
