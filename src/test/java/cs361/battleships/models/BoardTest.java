@@ -60,36 +60,36 @@ public class BoardTest {
         assertEquals(minesweeper, result.getShip());
     }
 
-    @Test
+    //We don't need this anymore since users can guess a square multiple times
+    /**@Test
     public void testAttackSameSquareMultipleTimes() {
         Ship minesweeper = new Ship("MINESWEEPER");
         board.placeShip(minesweeper, 1, 'A', true);
         board.attack(1, 'A');
         Result result = board.attack(1, 'A');
         assertEquals(AtackStatus.INVALID, result.getResult());
-    }
+    }**/
 
-    @Test
+    /** @Test
     public void testAttackSameEmptySquareMultipleTimes() {
         Result initialResult = board.attack(1, 'A');
         assertEquals(AtackStatus.MISS, initialResult.getResult());
         Result result = board.attack(1, 'A');
         assertEquals(AtackStatus.INVALID, result.getResult());
-    }
+    }**/
 
     @Test
-    public void testSurrender() {
+    public void testSunk() {
         board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
         board.attack(1, 'A');
         var result = board.attack(2, 'A');
-        assertEquals(AtackStatus.SURRENDER, result.getResult());
+        assertEquals(AtackStatus.SUNK, result.getResult());
     }
 
     @Test
     public void testPlaceMultipleShipsOfSameType() {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
         assertFalse(board.placeShip(new Ship("MINESWEEPER"), 5, 'D', true));
-
     }
 
     @Test
