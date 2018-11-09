@@ -79,14 +79,6 @@ public class BoardTest {
     }**/
 
     @Test
-    public void testSunk() {
-        board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true);
-        board.attack(1, 'A');
-        var result = board.attack(2, 'A');
-        assertEquals(AtackStatus.SUNK, result.getResult());
-    }
-
-    @Test
     public void testPlaceMultipleShipsOfSameType() {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
         assertFalse(board.placeShip(new Ship("MINESWEEPER"), 5, 'D', true));
