@@ -1,16 +1,21 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 body {
-    background-color: #6da3f9;
+    background-color: #c9c2c1;
 }
 .direction-box {
     background-color: #6e76dd;
     border-style: solid;
-    width: 300px;
+    width: 320px;
     font-family: 'Bitter', serif;
+    font-size: 12px;
     position: absolute;
-    left: 75px;
-    top: 300px;
+    left: 55px;
+    top: 125px;
+}
+
+.text-in-box {
+
 }
 
 .win-button{
@@ -19,6 +24,7 @@ body {
     background-color: red;
     border-style: solid;
     border-color: black;
+    border-width: thin;
 }
 
 .lose-button{
@@ -27,6 +33,7 @@ body {
     background-color: white;
     border-style: solid;
     border-color: black;
+    border-width: thin;
 }
 
 .title-thing{
