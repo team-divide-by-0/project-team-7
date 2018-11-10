@@ -123,18 +123,34 @@ public class ShipTest {
         assertEquals(new Square(1, 'A'), result.getLocation());
     }
 
-  /*  @Test
+
+    @Test
     public void testSink() {
         Ship minesweeper = new Ship("MINESWEEPER");
         minesweeper.place('A', 1, true);
 
-        minesweeper.attack(1, 'A');
-        Result result = minesweeper.attack(2, 'A');
+        minesweeper.attack(2, 'A');
+        Result result = minesweeper.attack(1, 'A');
 
         assertEquals(AtackStatus.SUNK, result.getResult());
         assertEquals(minesweeper, result.getShip());
-        assertEquals(new Square(2, 'A'), result.getLocation());
-    }*/
+        assertEquals(new Square(1, 'A'), result.getLocation());
+    }
+
+    @Test
+    public void testHitsTilSunk(){
+        var minesweeper = new Minesweeper();
+        minesweeper.place('A',1,true);
+        minesweeper.attack(1,'A');
+        assertEquals(0,minesweeper.getHitsTilSunk());
+
+        var battle = new Battleship();
+        battle.place('B',5,false);
+        battle.attack(5,'D');
+        assertEquals(1,battle.getHitsTilSunk());
+        battle.attack(5,'D');
+        assertEquals(0,battle.getHitsTilSunk());
+    }
 
     @Test
     public void testOverlapsBug() {
@@ -145,15 +161,15 @@ public class ShipTest {
         assertTrue(minesweeper.overlaps(destroyer));
     }
 
-   /* @Test
+   @Test
     public void testAttackSameSquareTwice() {
         Ship minesweeper = new Ship("MINESWEEPER");
         minesweeper.place('A', 1, true);
-        var result = minesweeper.attack(1, 'A');
+        var result = minesweeper.attack(2, 'A');
         assertEquals(AtackStatus.HIT, result.getResult());
-        result = minesweeper.attack(1, 'A');
+        result = minesweeper.attack(2, 'A');
         assertEquals(AtackStatus.INVALID, result.getResult());
-    }*/
+    }
 
     @Test
     public void testEquals() {
@@ -163,5 +179,20 @@ public class ShipTest {
         minesweeper2.place('A', 1, true);
         assertTrue(minesweeper1.equals(minesweeper2));
         assertEquals(minesweeper1.hashCode(), minesweeper2.hashCode());
+    }
+
+    @Test
+    public void testCaptainsQuartersStatus(){
+        Ship battle = new Battleship();
+        battle.place('A',1, false);
+        Result result = battle.attack(1, 'C');
+        assertEquals(AtackStatus.PROTECTED, result.getResult());
+        result = battle.attack(1, 'C');
+        assertEquals(AtackStatus.SUNK, result.getResult());
+
+        Ship minesweeper = new Minesweeper();
+        minesweeper.place('A',3,false);
+        result = minesweeper.attack(3,'A');
+        assertEquals(AtackStatus.SUNK, result.getResult());
     }
 }
