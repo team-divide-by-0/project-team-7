@@ -35,7 +35,7 @@ function markHits(board, elementId, surrenderText) {
             trackFirstHit++;
             if (trackFirstHit >= 1){
                var button = document.getElementById('sonar_button');
-               button.style.display='block';
+               button.style.display = "block";
                console.log('At least I get here');
             }
         }
@@ -154,11 +154,19 @@ function place(size) {
     }
 }
 
-let sonarBut = document.getElementById("sonar_button");
-sonarBut.addEventListener("click", function(e){
-    isSonar = true;
-    opponentCellListener(sonarHover());
-})
+ var clicks = 0
+ let sonarBut = document.getElementById('sonar_button').addEventListener("click", function(e){
+    //is attack hit in miss
+    //if (attack.result === "HIT"){
+        //markHits(game.opponentsBoard, "opponent", "");
+    ++clicks;
+     if (clicks >= 2){
+             document.getElementById("sonar_button").style.display = "none";
+         }
+    console.log("clicks:", clicks);
+     isSonar = true;
+     opponentCellListener(sonarHover());
+    })
 
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
@@ -182,36 +190,22 @@ function initGame() {
             vertical=true;
         }
     });
-<<<<<<< HEAD
-=======
-    var clicks = 0
-    let sonarBut = document.getElementById('sonar_button').addEventListener("click", function(e){
-    //is attack hit in miss
-    //if (attack.result === "HIT"){
-        //markHits(game.opponentsBoard, "opponent", "");
-    ++clicks;
-    if (clicks >= 2){
-        document.getElementById('sonar_button').style.display='none';
-    }
-    //}
-    //if the first enemy ship is hit then have the button
-    //document.getElementById("sonar_button").style.display='none';
-    // then count the clicks/usage and disappear after two
-        //if(sonarBut.classList.contains("hidden")){
-          //  sonarBut.classList.remove("hidden");
-            //isSonar = true;
-            //registerCellListener(sonar());
-        //} else{
-            //sonarBut.classList.add("hidden");
-       // }
+     sendXhr("GET", "/game", {}, function(data) {
+                game = data;
+     })
+}
+
+function sonarClick(){
+
+    clicks++;
+
+    if(clicks <=2 ){
+
         isSonar = true;
-        registerCellListener(sonarHover());
-    });
->>>>>>> 125d5b00f9b4f86aa6dd978d7eb9d22225d5ea2d
-    sendXhr("GET", "/game", {}, function(data) {
-        game = data;
-    });
-};
+        opponentCellListener(sonarHover());
+
+    }
+}
 
 var oldOppListener;
 function opponentCellListener(f) {
@@ -235,7 +229,6 @@ function sonarHover() {
         let table = document.getElementById("opponent");
         let cell;
         //create the hover effect vertically
-        //start with the first column
         for(let i=-2; i<3; i++){
             let tableRow = table.rows[row+i];
             if(tableRow == undefined){
