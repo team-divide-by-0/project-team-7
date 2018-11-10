@@ -53,11 +53,6 @@ public class Board {
 	}
 
 	private Result attack(Square s) {
-		if (attacks.stream().anyMatch(r -> r.getResult() == AtackStatus.HIT)){
-			var attackResult = new Result(s);
-			attackResult.setResult(AtackStatus.INVALID);
-			return attackResult;
-		}
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
 			//returns in a MISS
@@ -80,18 +75,22 @@ public class Board {
 
 	List<Result> getResults() { return attacks; }
 
-	public void activateSonar(int x, char y) {
+	public List<Result> activateSonar(int x, char y) {
 		List<Square> sonarSqs = sonar.getAllSquares(x, y);
 		Result tempResult;
+		List<Result> tempResults = new ArrayList<>();
 		for (var s : sonarSqs) {
 			tempResult = attack(s);
 			if(tempResult.getResult() == AtackStatus.MISS) {
 				tempResult.setResult(AtackStatus.REVEALED);
 				attacks.add((tempResult));
+				tempResults.add(tempResult);
 			} else if(tempResult.getResult() == AtackStatus.HIT || tempResult.getResult() == AtackStatus.SUNK) {
 				tempResult.setResult(AtackStatus.OCCUPIED);
 				attacks.add((tempResult));
+				tempResults.add(tempResult);
 			}
 		}
+		return tempResults;
 	}
 }

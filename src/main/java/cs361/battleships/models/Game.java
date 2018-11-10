@@ -49,6 +49,15 @@ public class Game {
         return true;
     }
 
+    public boolean sonarAttack(int x, char y){
+        List<Result> sonarRes = opponentsBoard.activateSonar(x, y);
+        if(sonarRes.stream().anyMatch(r -> r.getResult() == AtackStatus.INVALID)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private char randCol() {
         int random = new Random().nextInt(10);
         return (char) ('A' + random);
