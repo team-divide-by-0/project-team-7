@@ -11,6 +11,9 @@ public class Board {
 	@JsonProperty private List<Ship> ships;
 	@JsonProperty private List<Result> attacks;
 	private boolean showSonar;
+	//Minesweeper m;
+	//Destroyer d;
+	//Battleship b;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -19,6 +22,9 @@ public class Board {
 		ships = new ArrayList<>();
 		attacks = new ArrayList<>();
 		showSonar = false;
+		//m = new Minesweeper();
+		//d = new Destroyer();
+		//b = new Battleship();
 	}
 
 	/*
@@ -31,8 +37,20 @@ public class Board {
 		if (ships.stream().anyMatch(s -> s.getKind().equals(ship.getKind()))) {
 			return false;
 		}
-		final var placedShip = new Ship(ship.getKind());
+		Ship getShip = new Ship(ship.getKind());
+		if(ship.getKind().equals("MINESWEEPER")){
+			getShip = new Minesweeper();
+		}
+		else if(ship.getKind().equals("DESTROYER")){
+			getShip = new Destroyer();
+		}
+		else if(ship.getKind().equals("BATTLESHIP")){
+			getShip = new Battleship();
+		}
+		final var placedShip = getShip;
+		//final var placedShip = new Ship(ship.getKind());
 		placedShip.place(y, x, isVertical);
+		System.out.println(placedShip.getCqCol());
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
 			return false;
 		}
@@ -48,7 +66,11 @@ public class Board {
 	 */
 	public Result attack(int x, char y) {
 		Result attackResult = attack(new Square(x, y));
-		attacks.add(attackResult);
+		if(attackResult.getResult() != AtackStatus.PROTECTED){
+			attacks.add(attackResult);
+			return attackResult;
+		}
+		attackResult.setResult(AtackStatus.MISS);
 		return attackResult;
 	}
 
@@ -64,6 +86,7 @@ public class Board {
 			return attackResult;
 		}
 		var hitShip = shipsAtLocation.get(0);
+		//System.out.println("IN ATTACK: " + hitShip.getCqCol());
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {

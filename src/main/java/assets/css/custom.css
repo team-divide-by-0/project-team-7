@@ -101,6 +101,9 @@ td:hover {
 .miss {
     background-color: white;
 }
+.protected{
+    background-color: white;
+}
 
 h3{
     font-family: 'Teko', sans-serif;
