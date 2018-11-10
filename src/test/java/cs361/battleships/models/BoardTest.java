@@ -3,6 +3,8 @@ package cs361.battleships.models;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class BoardTest {
@@ -84,5 +86,11 @@ public class BoardTest {
         Result result = board.attack(6,'B');
         assertEquals(AtackStatus.SURRENDER,result.getResult());
 
+    }
+
+    @Test
+    public void testActivateSonar() {
+        List<Result> test = board.activateSonar(5,'E');
+        assertEquals(13,test.size());
     }
 }
