@@ -195,18 +195,6 @@ function initGame() {
      })
 }
 
-function sonarClick(){
-
-    clicks++;
-
-    if(clicks <=2 ){
-
-        isSonar = true;
-        opponentCellListener(sonarHover());
-
-    }
-}
-
 var oldOppListener;
 function opponentCellListener(f) {
     let el = document.getElementById("opponent");
