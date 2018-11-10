@@ -3,9 +3,7 @@ package cs361.battleships.models;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BoardTest {
 
@@ -50,15 +48,15 @@ public class BoardTest {
         assertEquals(AtackStatus.MISS, result.getResult());
     }
 
-   /* @Test
+    @Test
     public void testAttackShip() {
         Ship minesweeper = new Ship("MINESWEEPER");
         board.placeShip(minesweeper, 1, 'A', true);
         minesweeper = board.getShips().get(0);
-        Result result = board.attack(1, 'A');
+        Result result = board.attack(2, 'A');
         assertEquals(AtackStatus.HIT, result.getResult());
         assertEquals(minesweeper, result.getShip());
-    }*/
+    }
     @Test
     public void testPlaceMultipleShipsOfSameType() {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
@@ -71,6 +69,20 @@ public class BoardTest {
         assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true));
         assertTrue(board.placeShip(new Ship("DESTROYER"), 6, 'A', false));
         assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
+
+    }
+
+    @Test
+    public void testSurrender(){
+        board.placeShip(new Minesweeper(), 1, 'A', true);
+        board.placeShip(new Battleship(), 5, 'D', true);
+        board.placeShip(new Destroyer(), 6, 'A', false);
+        board.attack(1,'A');
+        board.attack(7,'D');
+        board.attack(7,'D');
+        board.attack(6,'B');
+        Result result = board.attack(6,'B');
+        assertEquals(AtackStatus.SURRENDER,result.getResult());
 
     }
 }
