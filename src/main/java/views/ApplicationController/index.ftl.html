@@ -6,10 +6,12 @@
 
 <h1>B A T T L E S H I P</h1>
 
+
 <div class="direction-box">
+
     <ul class="text-in-box">
         <li class="title-thing"><h4>Set-up:</h4></li>
-        <li>Opponent is top board</li>
+        <li>Opponent is the top board</li>
         <li>You are bottom board</li>
         <li>You can place any 3 ships on your board</li>
         <li>Your ship can be placed horizontal or vertical</li>
@@ -18,10 +20,30 @@
         <li class="title-thing"><h4>Playing the Game:</h4></li>
         <li>Click on squares on the opponents board to shoot</li>
         <li>A hit will appear red and a miss will appear white</li>
-        <li>Win the Game!</li>
-        <li class="title-thing"><button type="button" class="win-button"></button>Hit</li>
-        <li class="title-thing"><button type="button" class="lose-button"></button>Miss</li>
+        <li class="title-thing"><button type="button" class="win-button"></button> Hit</li>
+        <li class="title-thing"><button type="button" class="lose-button"></button> Miss</li>
+        <li> Hit all your opponent's ships to win the Game!</li>
     </ul>
+    <ul class="features-of-game">
+        <li class="title-thing"><h4>Cool Features in the Game:</h4></li>
+        <h4>Captain's Quarters</h4>
+        <li>Try to hit the Captain's Quarters! If the captains quarters is hit, then the ship is immediately sunk!</li>
+        <li>Beware! The captain's quarters for battleships and destroyers is armored. It takes 2 attacks on the same square for it to be hit</li>
+        <li>This means that the first attack always counts as a miss</li>
+        <li>Each ship has a unique captain's quarters. The red box indicates where the captains quarters is within each ship</li>
+        <li class="title-thing">Minesweeper   <button type="button" class="win-button"></button><button type="button" class="lose-button"></button></li>
+        <li class="title-thing">Destroyer   <button type="button" class="lose-button"></button><button type="button" class="win-button"></button><button type="button" class="lose-button"></button></li>
+        <li class="title-thing">Battleship   <button type="button" class="lose-button"></button><button type="button" class="lose-button"></button><button type="button" class="win-button"></button><button type="button" class="lose-button"></button></li>
+
+
+
+        <h4>Sonar Pulse</h4>
+        <li>The sonar pulse allows you to reveal a portion of the grid. It reveals the status of a cell as being free (in gray) or occupied (in black)</li>
+        <li> Remember, the sonar doesn't reveal the location of the ship's captains quarters. You have 2 sonar pulses total in the game and they can be used only after successfully
+            sinking the first enemy ship</li>
+    </ul>
+
+
 </div>
 <div id="border">
 
@@ -34,13 +56,15 @@
 </table>
 </div>
 
+<div class = "" >
 <h3>Place Your Ships</h3>
 <ul id="ship_buttons">
     <li><button id="place_minesweeper">MINESWEEPER   <i class="fas fa-square-full"></i><i class="fas fa-square-full"></i></button></li>
     <li><button id="place_destroyer">DESTROYER   <i class="fas fa-square-full"></i><i class="fas fa-square-full"></i><i class="fas fa-square-full"></i></button></li>
     <li><button id="place_battleship">BATTLESHIP    <i class="fas fa-square-full"></i><i class="fas fa-square-full"></i><i class="fas fa-square-full"></i><i class="fas fa-square-full"></i></button></li>
     <li><button id="is_vertical">Rotate 90&deg   <i class="fas fa-undo"></i></button></li>
-    <li><button id="sonar_button">Place Sonar  <img id="sonar_image" src="https://github.com/cs361fall2018/project-team-7/blob/master/src/main/java/views/ApplicationController/images/sonar.jpg?raw=true"></button></li>
+    <li><button id="sonar_button" class="hidden">Place Sonar  <img id="sonar_image" src="https://github.com/cs361fall2018/project-team-7/blob/master/src/main/java/views/ApplicationController/images/sonar.jpg?raw=true"></button></li>
+
 </ul>
 
 <script type="text/javascript" src="/assets/game.js"></script>

@@ -4,6 +4,7 @@ var game;
 var shipType;
 var vertical;
 var isSonar = false;
+var trackFirstHit = 0;
 
 function makeGrid(table, isPlayer) {
 
@@ -16,23 +17,41 @@ function makeGrid(table, isPlayer) {
         }
         table.appendChild(row);
     }
+    document.getElementById('sonar_button').style.display='none';
 }
+
+
 
 function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
+
         if (attack.result === "MISS")
             className = "miss";
         else if (attack.result === "HIT")
             className = "hit";
-        else if (attack.result === "SUNK")
-            className = "hit"
+        else if (attack.result === "SUNK"){
+            className = "hit";
+            trackFirstHit++;
+            if (trackFirstHit >= 1){
+               var button = document.getElementById('sonar_button');
+               button.style.display = "block";
+               console.log('At least I get here');
+            }
+        }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
         else if(attack.result === "PROTECTED")
             className = "protected"
+        else if (attack.result === "REVEALED")
+            className = "revealed";
+        else if (attack.result === "OCCUPIED")
+            className = "occupied";
+        //console.log(attack.location.row-1);
+        //console.log(attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0));
         document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
     });
+
 }
 
 function redrawGrid() {
@@ -81,10 +100,18 @@ function cellClick() {
         });
     }
     else {
-        sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
-            game = data;
-            redrawGrid();
-        })
+        if(isSonar){
+            sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonar: true}, function(data) {
+                game = data;
+                redrawGrid();
+                isSonar = false;
+            })
+        } else {
+            sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonar: false}, function(data) {
+                            game = data;
+                            redrawGrid();
+                        })
+        }
     }
 }
 
@@ -129,6 +156,20 @@ function place(size) {
     }
 }
 
+ var clicks = 0
+ let sonarBut = document.getElementById('sonar_button').addEventListener("click", function(e){
+    //is attack hit in miss
+    //if (attack.result === "HIT"){
+        //markHits(game.opponentsBoard, "opponent", "");
+    ++clicks;
+     if (clicks >= 2){
+             document.getElementById("sonar_button").style.display = "none";
+         }
+    console.log("clicks:", clicks);
+     isSonar = true;
+     opponentCellListener(sonarHover());
+    })
+
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);
     makeGrid(document.getElementById("player"), true);
@@ -151,30 +192,33 @@ function initGame() {
             vertical=true;
         }
     });
-    let sonarBut = document.getElementById("sonar_button").addEventListener("click", function(e){
-        //if(sonarBut.classList.contains("hidden")){
-          //  sonarBut.classList.remove("hidden");
-            //isSonar = true;
-            //registerCellListener(sonar());
-        //} else{
-            //sonarBut.classList.add("hidden");
-       // }
-        isSonar = true;
-        registerCellListener(sonarHover());
-    });
-    sendXhr("GET", "/game", {}, function(data) {
-        game = data;
-    });
-};
+     sendXhr("GET", "/game", {}, function(data) {
+                game = data;
+     })
+}
+
+var oldOppListener;
+function opponentCellListener(f) {
+    let el = document.getElementById("opponent");
+    for (i=0; i<10; i++) {
+        for (j=0; j<10; j++) {
+            let cell = el.rows[i].cells[j];
+            cell.removeEventListener("mouseover", oldOppListener);
+            cell.removeEventListener("mouseout", oldOppListener);
+            cell.addEventListener("mouseover", f);
+            cell.addEventListener("mouseout", f);
+        }
+    }
+    oldOppListener = f;
+}
 
 function sonarHover() {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
-        let table = document.getElementById("player");
+        let table = document.getElementById("opponent");
         let cell;
         //create the hover effect vertically
-        //start with the first column
         for(let i=-2; i<3; i++){
             let tableRow = table.rows[row+i];
             if(tableRow == undefined){
@@ -211,12 +255,9 @@ function sonarHover() {
                     if(cell == undefined){
                         break;
                     }
-                    //attempt to get the black circle in the middle -- doesn't work
-                    //let circle = document.createElement("div");
-                    //circle.className = "current";
-                    //cell.appendChild(circle);
                }
             }
         }
     }
+    sonarBut.removeEventListener("click", sonarHover());
 }

@@ -38,7 +38,6 @@ public class Game {
         if (playerAttack.getResult() == INVALID) {
             return false;
         }
-
         Result opponentAttackResult;
         do {
             // AI does random attacks, so it might attack the same spot twice
@@ -47,6 +46,15 @@ public class Game {
         } while(opponentAttackResult.getResult() == INVALID);
 
         return true;
+    }
+
+    public boolean sonarAttack(int x, char y){
+        List<Result> sonarRes = opponentsBoard.activateSonar(x, y);
+        if(sonarRes.stream().anyMatch(r -> r.getResult() == AtackStatus.INVALID)){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private char randCol() {
@@ -60,5 +68,9 @@ public class Game {
 
     private boolean randVertical() {
         return new Random().nextBoolean();
+    }
+
+    public Board getOpponentsBoard(){
+        return opponentsBoard;
     }
 }

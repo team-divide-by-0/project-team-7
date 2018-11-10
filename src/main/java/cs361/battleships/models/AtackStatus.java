@@ -30,4 +30,9 @@ public enum AtackStatus {
 
 	PROTECTED,
 
+	REVEALED,
+
+	OCCUPIED,
+
+
 }

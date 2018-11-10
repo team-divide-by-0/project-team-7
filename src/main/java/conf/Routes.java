@@ -16,6 +16,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/place").with(ApplicationController::placeShip);
         router.POST().route("/attack").with(ApplicationController::attack);
 
+
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
         ///////////////////////////////////////////////////////////////////////    
