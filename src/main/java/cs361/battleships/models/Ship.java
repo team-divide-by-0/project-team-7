@@ -18,45 +18,16 @@ public class Ship {
 	protected int hitsTilSunk;
 	protected int cqRow;
 
-	public void setKind(String kind) {
-		this.kind = kind;
-	}
-
-	public void setOccupiedSquares(List<Square> occupiedSquares) {
-		this.occupiedSquares = occupiedSquares;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
 
 	public int getHitsTilSunk() {
 		return hitsTilSunk;
 	}
 
-	public void setHitsTilSunk(int hitsTilSunk) {
-		this.hitsTilSunk = hitsTilSunk;
-	}
-
-	public int getCqRow() {
-		return cqRow;
-	}
-
-	public void setCqRow(int cqRow) {
-		this.cqRow = cqRow;
-	}
 
 	public char getCqCol() {
 		return cqCol;
 	}
 
-	public void setCqCol(char cqCol) {
-		this.cqCol = cqCol;
-	}
 
 	protected char cqCol;
 	//protected Square cqSquare;

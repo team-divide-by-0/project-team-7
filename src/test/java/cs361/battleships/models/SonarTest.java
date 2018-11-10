@@ -14,9 +14,10 @@ public class SonarTest {
     }
 
     @Test
-    public void getSquares() {
-        Sonar test = new Sonar();
-        assertTrue(test.getSquares());
+    public void testGetSquares() {
+       Sonar test = new Sonar();
+       test.getAllSquares(1, 'A');
+       assertEquals(13,test.getSquares().size());
     }
 
     @Test
