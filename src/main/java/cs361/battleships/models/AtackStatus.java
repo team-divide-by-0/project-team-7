@@ -28,6 +28,8 @@ public enum AtackStatus {
 	 */
 	INVALID,
 
+	PROTECTED,
+
 	REVEALED,
 
 	OCCUPIED,

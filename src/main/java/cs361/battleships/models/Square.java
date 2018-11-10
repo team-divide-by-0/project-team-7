@@ -6,9 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @SuppressWarnings("unused")
 public class Square {
 
-	@JsonProperty private int row;
-	@JsonProperty private char column;
+	@JsonProperty protected int row;
+	@JsonProperty protected char column;
 	@JsonProperty private boolean hit = false;
+	protected int hitsTilSunk;
 
 	public Square() {
 	}
@@ -16,6 +17,19 @@ public class Square {
 	public Square(int row, char column) {
 		this.row = row;
 		this.column = column;
+		this.hitsTilSunk = -1;
+	}
+
+	public void setColumn(char x){
+		this.column = x;
+	}
+
+	public void setRow(int x){
+		this.row = x;
+	}
+
+	public void setHitsTilSunk(int x){
+		this.hitsTilSunk = x;
 	}
 
 	public char getColumn() {
@@ -25,6 +39,8 @@ public class Square {
 	public int getRow() {
 		return row;
 	}
+
+	public int getHitsTilSunk(){ return hitsTilSunk; }
 
 
 	@Override

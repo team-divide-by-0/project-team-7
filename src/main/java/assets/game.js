@@ -41,6 +41,8 @@ function markHits(board, elementId, surrenderText) {
         }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
+        else if(attack.result === "PROTECTED")
+            className = "protected"
         else if (attack.result === "REVEALED")
             className = "revealed";
         else if (attack.result === "OCCUPIED")
