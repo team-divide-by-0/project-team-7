@@ -209,7 +209,7 @@ public class Ship {
 		var attackedSquare = square.get();
 		if(attackedSquare.getColumn() == cqCol && attackedSquare.getRow() == cqRow){
 			hitsTilSunk--;
-			System.out.println("HITS TIL SUNK: " + this.kind + " " + hitsTilSunk);
+			//System.out.println("HITS TIL SUNK: " + this.kind + " " + hitsTilSunk);
 			if(hitsTilSunk <= 0){
 				var result = new Result(attackedLocation);
 				result.setShip(this);
