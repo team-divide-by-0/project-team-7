@@ -12,7 +12,6 @@ public class Minesweeper extends Ship {
         this.kind = "MINESWEEPER";
         this.hitsTilSunk = 1;
         this.size = 2;
-        //this.cqSquare = new CaptainsQuarters();
         //this.occupiedSquares = new ArrayList<>();
 
         //this.sq = new Square(2, 'b');
