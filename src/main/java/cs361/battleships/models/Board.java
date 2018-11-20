@@ -56,27 +56,29 @@ public class Board {
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
-	public Result attack(int x, char y) {
-		Result attackResult = attack(new Square(x, y));
-		if(attackResult.getResult() != AtackStatus.PROTECTED){
-			attacks.add(attackResult);
-			return attackResult;
+	public List<Result> attack(int x, char y) {
+		List<Result> attackResult = attack(new Square(x, y));
+		for(Result i : attackResult) {
+			attacks.add(i);
 		}
 		return attackResult;
 	}
 
-	private Result attack(Square s) {
+	private List<Result> attack(Square s) {
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
+			//s.hit();
 			var attackResult = new Result(s);
-			return attackResult;
+			List<Result> r = new ArrayList<>();
+			r.add(attackResult);
+			return r;
 		}
 		var hitShip = shipsAtLocation.get(0);
 
-		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
-		if (attackResult.getResult() == AtackStatus.SUNK) {
+		List<Result> attackResult = hitShip.attack(s.getRow(), s.getColumn());
+		if (attackResult.get(0).getResult() == AtackStatus.SUNK) {
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
-				attackResult.setResult(AtackStatus.SURRENDER);
+				attackResult.get(0).setResult(AtackStatus.SURRENDER);
 			}
 		}
 		return attackResult;
@@ -88,7 +90,7 @@ public class Board {
 
 	List<Result> getResults() { return attacks; }
 
-	public List<Result> activateSonar(int x, char y) {
+	/*public List<Result> activateSonar(int x, char y) {
 		List<Square> sonarSqs = sonar.getAllSquares(x, y);
 		Result tempResult;
 		List<Result> tempResults = new ArrayList<>();
@@ -105,5 +107,5 @@ public class Board {
 			}
 		}
 		return tempResults;
-	}
+	}*/
 }

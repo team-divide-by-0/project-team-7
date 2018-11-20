@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.collect.Sets;
 import com.mchange.v1.util.CollectionUtils;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -102,34 +103,42 @@ public class Ship {
 		return kind;
 	}
 
-	public Result attack(int x, char y) {
+	public List<Result> attack(int x, char y) {
+		List<Result> resList = new ArrayList<>();
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
 		if (!square.isPresent()) {
-			return new Result(attackedLocation);
+			resList.add(new Result(attackedLocation));
+			return resList;
 		}
 		var attackedSquare = square.get();
 		if(attackedSquare.equals(getCqSquare())) {
 			getCqSquare().decHitsTilSunk();
 			if (getCqSquare().getHitsTilSunk() == 0) {
-				var result = new Result(attackedLocation);
+				/*var result = new Result(attackedLocation);
 				result.setShip(this);
+				result.setResult(AtackStatus.SUNK);*/
 				for (Square i : occupiedSquares) {
 					i.hit();
+					Result r = new Result(i);
+					r.setShip(this);
+					r.setResult(AtackStatus.SUNK);
+					resList.add(r);
 				}
-				result.setResult(AtackStatus.SUNK);
-				return result;
+				return resList;
 			} else {
 				var result = new Result(attackedLocation);
 				result.setShip(this);
-				result.setResult(AtackStatus.PROTECTED);
-				return result;
+				result.setResult(AtackStatus.MISS);
+				resList.add(result);
+				return resList;
 			}
 		}
 		if (attackedSquare.isHit()) {
 			var result = new Result(attackedLocation);
 			result.setResult(AtackStatus.INVALID);
-			return result;
+			resList.add(result);
+			return resList;
 		}
 		attackedSquare.hit();
 		var result = new Result(attackedLocation);
@@ -139,7 +148,8 @@ public class Ship {
 		} else {
 			result.setResult(AtackStatus.HIT);
 		}
-		return result;
+		resList.add(result);
+		return resList;
 	}
 
 	@JsonIgnore
