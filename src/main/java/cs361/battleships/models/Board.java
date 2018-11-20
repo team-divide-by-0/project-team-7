@@ -42,9 +42,7 @@ public class Board {
 			getShip = new Battleship();
 		}
 		final var placedShip = getShip;
-		//final var placedShip = new Ship(ship.getKind());
 		placedShip.place(y, x, isVertical);
-		System.out.println(placedShip.getCqCol());
 		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
 			return false;
 		}
@@ -64,19 +62,17 @@ public class Board {
 			attacks.add(attackResult);
 			return attackResult;
 		}
-		attackResult.setResult(AtackStatus.MISS);
 		return attackResult;
 	}
 
 	private Result attack(Square s) {
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
-			//returns in a MISS
 			var attackResult = new Result(s);
 			return attackResult;
 		}
 		var hitShip = shipsAtLocation.get(0);
-		//System.out.println("IN ATTACK: " + hitShip.getCqCol());
+
 		var attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.getResult() == AtackStatus.SUNK) {
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {

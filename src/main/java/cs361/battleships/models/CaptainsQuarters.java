@@ -2,16 +2,17 @@
 package cs361.battleships.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use= JsonTypeInfo.Id.CLASS, property="@CaptainsQuarters")
+
 public class CaptainsQuarters extends Square{
 
-    //private int hitsTilSunk;
-
     public CaptainsQuarters(){
-        super();
-        System.out.println("IN CQ CON");
         this.row = -1;
         this.column = 'z';
-        this.hitsTilSunk = -1;
     }
 
     public CaptainsQuarters(int row, char column, int captainHitNum) {
@@ -19,6 +20,11 @@ public class CaptainsQuarters extends Square{
         this.column = column;
         this.hitsTilSunk = captainHitNum;
     }
+
+    public void decHitsTilSunk(){
+        this.hitsTilSunk--;
+    }
+
 /*
     @Override
     public char getColumn() {
