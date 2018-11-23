@@ -114,10 +114,7 @@ public class Ship {
 		var attackedSquare = square.get();
 		if(attackedSquare.equals(getCqSquare())) {
 			getCqSquare().decHitsTilSunk();
-			if (getCqSquare().getHitsTilSunk() == 0) {
-				/*var result = new Result(attackedLocation);
-				result.setShip(this);
-				result.setResult(AtackStatus.SUNK);*/
+			if (getCqSquare().getHitsTilSunk() <= 0) {
 				for (Square i : occupiedSquares) {
 					i.hit();
 					Result r = new Result(i);
