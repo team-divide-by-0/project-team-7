@@ -6,6 +6,8 @@ var vertical;
 var isSonar = false;
 var trackFirstHit = 0;
 
+var clicks = 0;
+
 function makeGrid(table, isPlayer) {
 
     for (i=0; i<10; i++) {
@@ -17,7 +19,10 @@ function makeGrid(table, isPlayer) {
         }
         table.appendChild(row);
     }
-    document.getElementById('sonar_button').style.display='none';
+    if (clicks == 0) {
+        document.getElementById('sonar_button').style.display='none';
+    }
+
 }
 
 
@@ -35,7 +40,7 @@ function markHits(board, elementId, surrenderText) {
         else if (attack.result === "SUNK"){
             className = "hit";
             trackFirstHit++;
-            if (trackFirstHit >= 1){
+            if (trackFirstHit == 1){
                var button = document.getElementById('sonar_button');
                button.style.display = "block";
                console.log('At least I get here');
@@ -160,19 +165,19 @@ function place(size) {
     }
 }
 
- var clicks = 0
  let sonarBut = document.getElementById('sonar_button').addEventListener("click", function(e){
     //is attack hit in miss
     //if (attack.result === "HIT"){
-        //markHits(game.opponentsBoard, "opponent", "");
+    //markHits(game.opponentsBoard, "opponent", "");
     ++clicks;
-     if (clicks >= 2){
-             document.getElementById("sonar_button").style.display = "none";
-         }
+    if (clicks >= 2){
+        console.log("setting the button off");
+        document.getElementById("sonar_button").style.display = "none";
+    }
     console.log("clicks:", clicks);
-     isSonar = true;
-     opponentCellListener(sonarHover());
-    })
+    isSonar = true;
+    opponentCellListener(sonarHover());
+})
 
 function initGame() {
     makeGrid(document.getElementById("opponent"), false);

@@ -21,25 +21,11 @@ public class Ship {
 	@JsonProperty protected int hitsTilSunk;
 	protected CaptainsQuarters cqSquare;
 
-	public void setKind(String kind) {
-		this.kind = kind;
-	}
-
-	public void setOccupiedSquares(List<Square> occupiedSquares) {
-		this.occupiedSquares = occupiedSquares;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
 
 	public int getHitsTilSunk() {
 		return hitsTilSunk;
 	}
+
 
 	public void setHitsTilSunk(int hitsTilSunk) {
 		this.hitsTilSunk = hitsTilSunk;
@@ -52,6 +38,7 @@ public class Ship {
 	public void setCqSquare(CaptainsQuarters cqSquare) {
 		this.cqSquare = cqSquare;
 	}
+
 
 	public Ship() {
 		occupiedSquares = new ArrayList<>();
