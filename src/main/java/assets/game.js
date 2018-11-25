@@ -77,7 +77,30 @@ function redrawGrid() {
     }));
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
+    shipsRemaining();
 }
+
+var written = [];
+function shipsRemaining(){
+    var sunkShips = game.opponentsBoard.sunkShips;
+
+    sunkShips.forEach(function(ship){
+      //console.log("Ship: ");
+      if(!written.includes(ship.kind)){
+      written.push(ship.kind);
+      var para = document.createElement('button');
+      para.textContent = ship.kind;
+      console.log("kind:" + ship.kind);
+      var sunkshipdiv = document.getElementById("sunk-ships");
+      sunkshipdiv.appendChild(para);
+      }
+
+    });
+
+
+
+}
+
 
 var oldListener;
 function registerCellListener(f) {
