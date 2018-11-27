@@ -43,11 +43,33 @@ public class Board {
 		else if(ship.getKind().equals("BATTLESHIP")){
 			getShip = new Battleship();
 		}
+		else if(ship.getKind().equals("SUBMARINE")){
+			getShip = new Submarine();
+		}
 		final var placedShip = getShip;
 		placedShip.place(y, x, isVertical);
-		if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			return false;
+
+		for(Ship i: ships){
+			if (i.overlaps(placedShip)) {
+				if (i instanceof Submarine) {
+					((Submarine) i).setSubmerged(1);
+				}
+				else if (placedShip instanceof Submarine) {
+					((Submarine) i).setSubmerged(1);
+				}
+				else{
+					return false;
+				}
+			}
 		}
+
+		/*if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
+			if(placedShip instanceof Submarine){
+				((Submarine) placedShip).setSubmerged(1);
+				return true;
+			}
+			return false;
+		}*/
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
 			return false;
 		}
@@ -69,7 +91,7 @@ public class Board {
 	private List<Result> attack(Square s) {
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
-			//s.hit();
+			s.hit();
 			var attackResult = new Result(s);
 			List<Result> r = new ArrayList<>();
 			r.add(attackResult);
@@ -80,7 +102,6 @@ public class Board {
 		List<Result> attackResult = hitShip.attack(s.getRow(), s.getColumn());
 		if (attackResult.get(0).getResult() == AtackStatus.SUNK) {
 			sunkShips.add(hitShip);
-			//System.out.println("hit added" + sunkShips);
 			if (ships.stream().allMatch(ship -> ship.isSunk())) {
 				attackResult.get(0).setResult(AtackStatus.SURRENDER);
 			}

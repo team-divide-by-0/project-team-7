@@ -20,7 +20,19 @@ public class Ship {
 	@JsonProperty protected int size;
 	@JsonProperty protected int hitsTilSunk;
 	protected CaptainsQuarters cqSquare;
+	protected int submerged;
 
+	public int getSubmerged() {
+		return submerged;
+	}
+
+	public void setSubmerged(int submerged) {
+		this.submerged = submerged;
+	}
+
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
 
 	public int getHitsTilSunk() {
 		return hitsTilSunk;
@@ -91,6 +103,9 @@ public class Ship {
 	}
 
 	public List<Result> attack(int x, char y) {
+		if(this instanceof Submarine && submerged == 1){
+			//this can only be hit with a laser
+		}
 		List<Result> resList = new ArrayList<>();
 		var attackedLocation = new Square(x, y);
 		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();

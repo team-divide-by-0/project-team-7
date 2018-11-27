@@ -9,6 +9,7 @@ public class Destroyer extends Ship {
         this.kind = "DESTROYER";
         this.hitsTilSunk= 2;
         this.size = 3;
+        this.submerged = 0;
     }
 
     @Override
