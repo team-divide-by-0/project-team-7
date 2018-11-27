@@ -170,6 +170,10 @@ button{
     height: 30px;
 }
 
+#sub_image{
+    width: 85px;
+    height: 45px;
+}
  .fa-square-full{
     margin-right:1px;
  }
