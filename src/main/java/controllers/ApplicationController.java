@@ -40,7 +40,7 @@ public class ApplicationController {
         if(g.getIsSonar() == false) {
             result = game.attack(g.getActionRow(), g.getActionColumn());
         } else if(g.getIsSonar() == true){
-            result = game.sonarAttack(g.getActionRow(), g.getActionColumn());
+            //result = game.sonarAttack(g.getActionRow(), g.getActionColumn());
         }
         if (result) {
             return Results.json().render(game);

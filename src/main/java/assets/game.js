@@ -30,9 +30,11 @@ function makeGrid(table, isPlayer) {
 function markHits(board, elementId, surrenderText) {
     board.attacks.forEach((attack) => {
         let className;
-
-        if (attack.result === "MISS")
+        //console.log(attack.result);
+        if (attack.result === "MISS" || attack.result === "PROTECTED"){
             className = "miss";
+            //console.log("IN HERE " + attack.result);
+        }
         else if (attack.result === "HIT")
             className = "hit";
         else if (attack.result === "SUNK"){
@@ -46,8 +48,10 @@ function markHits(board, elementId, surrenderText) {
         }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
-        else if(attack.result === "PROTECTED")
+       /* else if(attack.result === "PROTECTED"){
             className = "protected"
+            console.log("I'm in here");
+        }*/
         else if (attack.result === "REVEALED")
             className = "revealed";
         else if (attack.result === "OCCUPIED")
@@ -73,7 +77,30 @@ function redrawGrid() {
     }));
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
+    shipsRemaining();
 }
+
+var written = [];
+function shipsRemaining(){
+    var sunkShips = game.opponentsBoard.sunkShips;
+
+    sunkShips.forEach(function(ship){
+      //console.log("Ship: ");
+      if(!written.includes(ship.kind)){
+      written.push(ship.kind);
+      var para = document.createElement('button');
+      para.textContent = ship.kind;
+      console.log("kind:" + ship.kind);
+      var sunkshipdiv = document.getElementById("sunk-ships");
+      sunkshipdiv.appendChild(para);
+      }
+
+    });
+
+
+
+}
+
 
 var oldListener;
 function registerCellListener(f) {
