@@ -16,6 +16,8 @@ public class Minesweeper extends Ship {
         this.occupiedSquares = new ArrayList<>();
     }
 
+
+
     @Override
     public void place(char col, int row, boolean isVertical) {
         cqSquare.setColumn(col);
