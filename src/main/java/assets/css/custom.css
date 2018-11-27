@@ -101,6 +101,9 @@ td:hover {
     background-color: black;
 }
 
+.miss {
+    background-color: white;
+}
 .hit {
     background-color: red;
 }
@@ -109,9 +112,6 @@ td:hover {
     background-color: red;
 }
 
-.miss {
-    background-color: white;
-}
 .protected{
     background-color: white;
 }
