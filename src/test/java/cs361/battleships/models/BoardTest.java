@@ -27,6 +27,12 @@ public class BoardTest {
     }
 
     @Test
+    public void testPlaceSubmarine() {
+        Board board = new Board();
+        assertTrue(board.placeShip(new Ship("SUBMARINE"), 2, 'A', false));
+    }
+
+    @Test
     public void testValidPlacement(){
         Board board = new Board();
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 4, 'B', false));
@@ -66,8 +72,9 @@ public class BoardTest {
     }
 
     @Test
-    public void testCantPlaceMoreThan3Ships() {
+    public void testCantPlaceMoreThan4Ships() {
         assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
+        assertTrue(board.placeShip(new Ship("SUBMARINE"), 10, 'F', false));
         assertTrue(board.placeShip(new Ship("BATTLESHIP"), 5, 'D', true));
         assertTrue(board.placeShip(new Ship("DESTROYER"), 6, 'A', false));
         assertFalse(board.placeShip(new Ship(""), 8, 'A', false));
