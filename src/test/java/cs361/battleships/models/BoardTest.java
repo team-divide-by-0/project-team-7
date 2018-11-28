@@ -95,6 +95,15 @@ public class BoardTest {
 
     }
 
+    @Test
+    public void testSubCaptainsQuarters(){
+        board.placeShip(new Minesweeper(),10,'A',false);
+        board.placeShip(new Submarine(),2,'A',false);
+        board.attack(2,'D');
+        List<Result> results = board.attack(2,'D');
+        assertEquals(AtackStatus.SUNK,results.get(0).getResult());
+    }
+
     /*@Test
     public void testActivateSonar() {
         List<Result> test = board.activateSonar(5,'E');

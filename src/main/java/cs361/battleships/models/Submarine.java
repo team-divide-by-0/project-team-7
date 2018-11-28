@@ -28,9 +28,9 @@ public class Submarine extends Ship{
             occupiedSquares.add(new Square(row, (col)));
             occupiedSquares.add(new Square(row, (char) (col + 1)));
             occupiedSquares.add(new Square(row, (char) (col + 2)));
-            cqSquare = new CaptainsQuarters(row-1,(char) (col + 2), hitsTilSunk);
+            occupiedSquares.add(new Square(row-1, (char) (col + 2)));
+            cqSquare = new CaptainsQuarters(row,(char) (col + 3), hitsTilSunk);
             occupiedSquares.add(cqSquare);  //set the captain quarter square
-            occupiedSquares.add(new Square(row, (char) (col + 3)));
         }
         System.out.println("SUBMARINE: " + occupiedSquares);
     }
