@@ -5,6 +5,9 @@ var shipType;
 var vertical;
 var isSonar = false;
 var trackFirstHit = 0;
+var written = [];
+var numMoves = 0;
+
 
 var clicks = 0;
 
@@ -77,30 +80,88 @@ function redrawGrid() {
     }));
     markHits(game.opponentsBoard, "opponent", "You won the game");
     markHits(game.playersBoard, "player", "You lost the game");
+    // every time the grid is redrawn, the conditions are checked for move and laser
     shipsRemaining();
+    checkLaserConditions();
+    checkButtonConditions();
 }
 
-var written = [];
+//written array holds the string names of the ships that already appear in the "Sunk Ships" box
 function shipsRemaining(){
+    //all the ships with "Sunk" as AtackStatus
     var sunkShips = game.opponentsBoard.sunkShips;
 
+    //checks if a new ship has been added to board's sunk ships list,
+        // if there's a new ship that has been sunk, add it to the list to write to the box
     sunkShips.forEach(function(ship){
       //console.log("Ship: ");
       if(!written.includes(ship.kind)){
       written.push(ship.kind);
       var para = document.createElement('button');
       para.textContent = ship.kind;
-      console.log("kind:" + ship.kind);
       var sunkshipdiv = document.getElementById("sunk-ships");
       sunkshipdiv.appendChild(para);
       }
 
     });
+}
 
+var firstLaser = true;
+function checkLaserConditions(){
 
+    if(written.length >= 1){
+        if(firstLaser){
+            alert("Laser mode activated");
+            //some java functionality here
+            //change global var so alert doesn't show
+            firstLaser = false;
+        }
+    }
 
 }
 
+function checkButtonConditions(){
+
+    let moveButtons = document.getElementsByClassName("move");
+
+    //if more than two ships have been sunk and there are still moves available
+    //then remove the hidden variable from all the buttons and give them event listener
+    if(written.length >= 2){
+        if(numMoves <= 1){
+            if(moveButtons[0].classList.contains('hidden')){
+                for(var i = 0; i < moveButtons.length; i++){
+                    moveButtons[i].classList.remove('hidden');
+                }
+           //addMoveButtonEventListeners();
+            }
+        }
+    }
+
+    if(numMoves >= 2){
+        if(moveButtons[0].classList.contains('hidden')){
+            //nothing should happen here
+        } else {
+            for(var i = 0; i < moveButtons.length; i++){
+                moveButtons[i].classList.add('hidden');
+            }
+        }
+    }
+
+    //if all the moves have been used and the buttons are not hidden, rehide them from the user
+
+}
+
+function addMoveButtonEventListeners(){
+    let moveButtons = document.getElementsByClassName('move');
+    for(var i = 0; i < moveButtons.length; i++){
+        moveButtons[i].addEventListener('click', function(e){
+            numMoves++;
+            checkButtonConditions();
+            console.log("move button clicked! " + numMoves);
+            //call some java function to handle the actual functionality
+        })
+    }
+}
 
 var oldListener;
 function registerCellListener(f) {
@@ -227,6 +288,7 @@ function initGame() {
             vertical=true;
         }
     });
+     addMoveButtonEventListeners();
      sendXhr("GET", "/game", {}, function(data) {
                 game = data;
      })
