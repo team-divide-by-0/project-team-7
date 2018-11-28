@@ -55,7 +55,7 @@ public class Board {
 					((Submarine) i).setSubmerged(1);
 				}
 				else if (placedShip instanceof Submarine) {
-					((Submarine) i).setSubmerged(1);
+					((Submarine) placedShip).setSubmerged(1);
 				}
 				else{
 					return false;
