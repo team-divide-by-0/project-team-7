@@ -49,19 +49,6 @@ public class Board {
 		final var placedShip = getShip;
 		placedShip.place(y, x, isVertical);
 
-		for(Ship i: ships){
-			if (i.overlaps(placedShip)) {
-				if (i instanceof Submarine) {
-					((Submarine) i).setSubmerged(1);
-				}
-				else if (placedShip instanceof Submarine) {
-					((Submarine) i).setSubmerged(1);
-				}
-				else{
-					return false;
-				}
-			}
-		}
 
 		/*if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
 			if(placedShip instanceof Submarine){
