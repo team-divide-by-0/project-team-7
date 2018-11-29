@@ -103,17 +103,24 @@ public class Ship {
 	}
 
 	public List<Result> attack(int x, char y) {
-		if(this instanceof Submarine && submerged == 1){
-			//this can only be hit with a laser
-		}
 		List<Result> resList = new ArrayList<>();
-		var attackedLocation = new Square(x, y);
-		var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
-		if (!square.isPresent()) {
+		//var attackedLocation = new Square(x, y);
+		Square attackedLocation = null;
+		Square attackedSquare = null;
+		for(Square i : occupiedSquares){
+			if(i.getRow() == x && i.getColumn() == y){
+				attackedLocation = i;
+				attackedSquare = i;
+			}
+		}
+		Square square = attackedLocation;
+		//var square = getOccupiedSquares().stream().filter(s -> s.equals(attackedLocation)).findFirst();
+		if (square == null) {
+			attackedLocation = new Square(x, y);
 			resList.add(new Result(attackedLocation));
 			return resList;
 		}
-		var attackedSquare = square.get();
+		//var attackedSquare = square.get();
 		if(attackedSquare.equals(getCqSquare())) {
 			getCqSquare().decHitsTilSunk();
 			if (getCqSquare().getHitsTilSunk() <= 0) {
@@ -150,6 +157,75 @@ public class Ship {
 		resList.add(result);
 		return resList;
 	}
+
+	public boolean moveFleet(String direction){
+		int counter = 0;
+		if(direction == "right") {
+			char[] array = new char[occupiedSquares.size()];
+            for(Square i : occupiedSquares){
+            	array[counter] = (char) (i.getColumn()+1);
+            	if(array[counter] > 'J'){
+            		return false;
+				}
+            	counter++;
+			}
+			counter = 0;
+			for(Square i: occupiedSquares){
+				i.setColumn(array[counter]);
+				counter++;
+			}
+            return true;
+	    }
+	    else if(direction == "left"){
+			char[] array = new char[occupiedSquares.size()];
+			for(Square i : occupiedSquares){
+				array[counter] = (char) (i.getColumn()-1);
+				if(array[counter] < 'A'){
+					return false;
+				}
+				counter++;
+			}
+			counter = 0;
+			for(Square i: occupiedSquares){
+				i.setColumn(array[counter]);
+				counter++;
+			}
+			return true;
+        }
+        else if(direction == "up"){
+			int[] array = new int[occupiedSquares.size()];
+			for(Square i : occupiedSquares){
+				array[counter] = i.getRow()-1;
+				if(array[counter] < 1){
+					return false;
+				}
+				counter++;
+			}
+			counter = 0;
+			for(Square i: occupiedSquares){
+				i.setRow(array[counter]);
+				counter++;
+			}
+			return true;
+        }
+        else if(direction == "down"){
+			int[] array = new int[occupiedSquares.size()];
+			for(Square i : occupiedSquares){
+				array[counter] = i.getRow()+1;
+				if(array[counter] > 10){
+					return false;
+				}
+				counter++;
+			}
+			counter = 0;
+			for(Square i: occupiedSquares){
+				i.setRow(array[counter]);
+				counter++;
+			}
+			return true;
+        }
+        return false;
+    }
 
 	@JsonIgnore
 	public boolean isSunk() {

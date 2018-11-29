@@ -194,4 +194,25 @@ public class ShipTest {
         result = minesweeper.attack(3,'A');
         assertEquals(AtackStatus.SUNK, result.get(0).getResult());
     }
+
+    @Test
+    public void testMoveFleet(){
+        Ship s = new Minesweeper();
+        s.place('A', 1, false);
+        s.moveFleet("right");
+        boolean correct = true;
+        if(s.getOccupiedSquares().get(0).getColumn() != 'B'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(0).getRow() != 1){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getColumn() != 'C'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getRow() != 1){
+            correct = false;
+        }
+        assertTrue(correct);
+    }
 }
