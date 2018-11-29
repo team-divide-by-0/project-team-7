@@ -77,6 +77,13 @@ public class Board {
 		return true;
 	}
 
+	public boolean moveFleet(String direction){
+		for( Ship i : ships) {
+			boolean ret = i.moveFleet(direction);
+		}
+		return false;
+	}
+
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
