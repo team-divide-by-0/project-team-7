@@ -99,8 +99,8 @@ function shipsRemaining(){
       written.push(ship.kind);
       var para = document.createElement('button');
       para.textContent = ship.kind;
-      var sunkshipdiv = document.getElementById("sunk-ships");
-      sunkshipdiv.appendChild(para);
+      var sunkship = document.getElementById("sunk-ships");
+      sunkship.appendChild(para);
       }
 
     });
@@ -158,9 +158,29 @@ function addMoveButtonEventListeners(){
             numMoves++;
             checkButtonConditions();
             console.log("move button clicked! " + numMoves);
-            //call some java function to handle the actual functionality
         })
     }
+
+    document.getElementById('fleet_up').addEventListener('click', function(){
+        moveShips('u');
+    });
+    document.getElementById('fleet_down').addEventListener('click', function(){
+        moveShips('d');
+    });
+    document.getElementById('fleet_left').addEventListener('click', function(){
+        moveShips('l');
+    });
+    document.getElementById('fleet_right').addEventListener('click', function(){
+        moveShips('r');
+    });
+}
+
+function moveShips(direction){
+
+    sendXhr("POST", "/moveFleet", {game: game, direction: direction}, function(data) {
+                            game = data;
+                            redrawGrid();
+    })
 }
 
 var oldListener;
@@ -222,7 +242,7 @@ function sendXhr(method, url, data, handler) {
     req.send(JSON.stringify(data));
 }
 
-function place(size) {
+function place(size, kind) {
     return function() {
         let row = this.parentNode.rowIndex;
         let col = this.cellIndex;
@@ -244,6 +264,21 @@ function place(size) {
                 break;
             }
             cell.classList.toggle("placed");
+        }
+        if(kind === "submarine"){
+            let cell;
+            if(vertical){
+                cell = table.rows[row+2].cells[col+1];
+            }
+            else {
+                cell = table.rows[row-1].cells[col+2];
+            }
+            if(cell === undefined){
+
+            }
+            else {
+                cell.classList.toggle("placed");
+            }
         }
     }
 }
@@ -267,19 +302,19 @@ function initGame() {
     makeGrid(document.getElementById("player"), true);
     document.getElementById("place_minesweeper").addEventListener("click", function(e) {
         shipType = "MINESWEEPER";
-       registerCellListener(place(2));
+       registerCellListener(place(2, "mindsweeper"));
     });
     document.getElementById("place_destroyer").addEventListener("click", function(e) {
         shipType = "DESTROYER";
-       registerCellListener(place(3));
+       registerCellListener(place(3, "destroyer"));
     });
     document.getElementById("place_battleship").addEventListener("click", function(e) {
         shipType = "BATTLESHIP";
-       registerCellListener(place(4));
+       registerCellListener(place(4, "battleship"));
     });
     document.getElementById("place_submarine").addEventListener("click", function(e) {
          shipType = "SUBMARINE";
-         registerCellListener(place(5));
+         registerCellListener(place(4, "submarine"));
     });
     document.getElementById("is_vertical").addEventListener("click", function(e){
         if(vertical){

@@ -80,4 +80,26 @@ public class Square {
 	public String toString() {
 		return "(" + row + ", " + column + ')';
 	}
+
+	//moves the row and column of current square based on the direction
+	public void newLocation(char dir){
+		Square movedSq = new Square(row, column);
+		if(dir == 'd'){
+			int newRow = row+1;
+			movedSq.setRow(newRow);
+		} else if(dir == 'u'){
+			int newRow = row-1;
+			movedSq.setRow(newRow);
+		} else if(dir == 'l'){
+			char newCol = (char)(column-1);
+			movedSq.setColumn(newCol);
+		} else if(dir == 'r'){
+			char newCol = (char)(column+1);
+			movedSq.setColumn(newCol);
+		}
+		if(!movedSq.isOutOfBounds()) {
+			this.row = movedSq.row;
+			this.column = movedSq.column;
+		}
+	}
 }

@@ -8,10 +8,14 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-	@JsonProperty private List<Ship> ships;
-	@JsonProperty private List<Result> attacks;
-	@JsonProperty private Sonar sonar;
-	@JsonProperty private List<Ship> sunkShips;
+	@JsonProperty
+	private List<Ship> ships;
+	@JsonProperty
+	private List<Result> attacks;
+	@JsonProperty
+	private Sonar sonar;
+	@JsonProperty
+	private List<Ship> sunkShips;
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
@@ -34,30 +38,25 @@ public class Board {
 			return false;
 		}
 		Ship getShip = new Ship(ship.getKind());
-		if(ship.getKind().equals("MINESWEEPER")){
+		if (ship.getKind().equals("MINESWEEPER")) {
 			getShip = new Minesweeper();
-		}
-		else if(ship.getKind().equals("DESTROYER")){
+		} else if (ship.getKind().equals("DESTROYER")) {
 			getShip = new Destroyer();
-		}
-		else if(ship.getKind().equals("BATTLESHIP")){
+		} else if (ship.getKind().equals("BATTLESHIP")) {
 			getShip = new Battleship();
-		}
-		else if(ship.getKind().equals("SUBMARINE")){
+		} else if (ship.getKind().equals("SUBMARINE")) {
 			getShip = new Submarine();
 		}
 		final var placedShip = getShip;
 		placedShip.place(y, x, isVertical);
 
-		for(Ship i: ships){
+		for (Ship i : ships) {
 			if (i.overlaps(placedShip)) {
 				if (i instanceof Submarine) {
 					((Submarine) i).setSubmerged(1);
-				}
-				else if (placedShip instanceof Submarine) {
+				} else if (placedShip instanceof Submarine) {
 					((Submarine) placedShip).setSubmerged(1);
-				}
-				else{
+				} else {
 					return false;
 				}
 			}
@@ -77,19 +76,19 @@ public class Board {
 		return true;
 	}
 
-	public boolean moveFleet(String direction){
+	/*public boolean moveFleet(String direction){
 		for( Ship i : ships) {
 			boolean ret = i.moveFleet(direction);
 		}
 		return false;
-	}
+	}*/
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
 	public List<Result> attack(int x, char y) {
 		List<Result> attackResult = attack(new Square(x, y));
-		for(Result i : attackResult) {
+		for (Result i : attackResult) {
 			attacks.add(i);
 		}
 		return attackResult;
@@ -120,9 +119,13 @@ public class Board {
 		return ships;
 	}
 
-	List<Ship> getSunkShips(){ return sunkShips;}
+	List<Ship> getSunkShips() {
+		return sunkShips;
+	}
 
-	List<Result> getResults() { return attacks; }
+	List<Result> getResults() {
+		return attacks;
+	}
 
 	/*public List<Result> activateSonar(int x, char y) {
 		List<Square> sonarSqs = sonar.getAllSquares(x, y);
@@ -142,4 +145,42 @@ public class Board {
 		}
 		return tempResults;
 	}*/
+
+	public void moveFleet(char dir) {
+
+		//move all the locations in each ship
+		for (Ship s : ships) {
+			//check if the ship can be moved in the bounds of the board
+			boolean goodMove = moveShip(s, dir);
+			if(goodMove){
+				s.moveShip(dir);
+			}
+		}
+	}
+
+	public boolean moveShip(Ship s, char dir) {
+		//check if all squares are in bound,
+		//if out of bound, return false and don't move ship
+		for (Square sq : s.getOccupiedSquares()) {
+			if (dir == 'u') {
+				if (sq.getRow() - 1 > 10 || sq.getRow() - 1 < 1) {
+					return false;
+				}
+			} else if (dir == 'd') {
+				if (sq.getRow() + 1 > 10 || sq.getRow() + 1 < 1) {
+					return false;
+				}
+			} else if (dir == 'l') {
+				if (sq.getColumn() - 1 < 'A' || sq.getColumn() - 1 > 'J') {
+					return false;
+				}
+			} else if (dir == 'r') {
+				if (sq.getColumn() + 1 < 'A' || sq.getColumn() + 1 > 'J') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 }
