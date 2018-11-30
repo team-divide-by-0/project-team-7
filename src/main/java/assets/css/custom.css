@@ -27,6 +27,19 @@ body {
     border-width: thin;
 }
 
+.lose-button2{
+    height: 15px;
+    width: 15px;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: thin;
+    position: absolute;
+    left: 137px;
+    top: 573px;
+}
+
+
 .lose-button{
     height: 15px;
     width: 15px;
