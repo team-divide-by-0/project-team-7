@@ -98,9 +98,9 @@ public class BoardTest {
     @Test
     public void testSubCaptainsQuarters(){
         board.placeShip(new Minesweeper(),10,'A',false);
-        board.placeShip(new Submarine(),2,'A',false);
-        board.attack(2,'D');
-        List<Result> results = board.attack(2,'D');
+        board.placeShip(new Submarine(),2,'A',true);
+        board.attack(5,'A');
+        List<Result> results = board.attack(5,'A');
         assertEquals(AtackStatus.SUNK,results.get(0).getResult());
     }
     @Test
@@ -112,10 +112,9 @@ public class BoardTest {
         List<Result> results=board.attack(4,'D');
         assertEquals(AtackStatus.HIT, results.get(0).getResult());
         assertEquals(AtackStatus.HIT, results.get(0).getResult());
-
-
-
     }
+
+
     /*@Test
     public void testActivateSonar() {
         List<Result> test = board.activateSonar(5,'E');

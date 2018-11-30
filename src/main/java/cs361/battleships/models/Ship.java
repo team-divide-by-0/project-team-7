@@ -22,34 +22,19 @@ public class Ship {
 	protected CaptainsQuarters cqSquare;
 	protected int submerged;
 
-	public int getSubmerged() {
-		return submerged;
-	}
+
 
 	public void setSubmerged(int submerged) {
 		this.submerged = submerged;
 	}
 
-	public void setKind(String kind) {
-		this.kind = kind;
-	}
 
-	public int getHitsTilSunk() {
-		return hitsTilSunk;
-	}
-
-
-	public void setHitsTilSunk(int hitsTilSunk) {
-		this.hitsTilSunk = hitsTilSunk;
-	}
 
 	public CaptainsQuarters getCqSquare() {
 		return cqSquare;
 	}
 
-	public void setCqSquare(CaptainsQuarters cqSquare) {
-		this.cqSquare = cqSquare;
-	}
+
 
 
 	public Ship() {
