@@ -103,7 +103,19 @@ public class BoardTest {
         List<Result> results = board.attack(2,'D');
         assertEquals(AtackStatus.SUNK,results.get(0).getResult());
     }
+    @Test
+    public void testLaser(){
+        board.placeShip(new Minesweeper(),1,'A',false);
+        board.attack(1,'A'); //laser should now be activated
+        board.placeShip(new Submarine(), 4,'D', false);
+        board.placeShip(new Battleship(), 4, 'D', false);
+        List<Result> results=board.attack(4,'D');
+        assertEquals(AtackStatus.HIT, results.get(0).getResult());
+        assertEquals(AtackStatus.HIT, results.get(0).getResult());
 
+
+
+    }
     /*@Test
     public void testActivateSonar() {
         List<Result> test = board.activateSonar(5,'E');

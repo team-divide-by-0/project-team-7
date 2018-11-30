@@ -112,6 +112,17 @@ public class Board {
 				attackResult.get(0).setResult(AtackStatus.SURRENDER);
 			}
 		}
+		if(shipsAtLocation.size() == 2 && sunkShips.size() > 0){
+			hitShip = shipsAtLocation.get(1);
+
+			 attackResult.addAll(hitShip.attack(s.getRow(), s.getColumn()));
+			if (attackResult.get(0).getResult() == AtackStatus.SUNK) {
+				sunkShips.add(hitShip);
+				if (ships.stream().allMatch(ship -> ship.isSunk())) {
+					attackResult.get(0).setResult(AtackStatus.SURRENDER);
+				}
+			}
+		}
 		return attackResult;
 	}
 
@@ -119,32 +130,9 @@ public class Board {
 		return ships;
 	}
 
-	List<Ship> getSunkShips() {
-		return sunkShips;
-	}
 
-	List<Result> getResults() {
-		return attacks;
-	}
 
-	/*public List<Result> activateSonar(int x, char y) {
-		List<Square> sonarSqs = sonar.getAllSquares(x, y);
-		Result tempResult;
-		List<Result> tempResults = new ArrayList<>();
-		for (var s : sonarSqs) {
-			tempResult = attack(s);
-			if(tempResult.getResult() == AtackStatus.MISS) {
-				tempResult.setResult(AtackStatus.REVEALED);
-				attacks.add((tempResult));
-				tempResults.add(tempResult);
-			} else if(tempResult.getResult() == AtackStatus.HIT || tempResult.getResult() == AtackStatus.SUNK) {
-				tempResult.setResult(AtackStatus.OCCUPIED);
-				attacks.add((tempResult));
-				tempResults.add(tempResult);
-			}
-		}
-		return tempResults;
-	}*/
+
 
 	public void moveFleet(char dir) {
 
