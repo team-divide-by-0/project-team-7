@@ -177,6 +177,7 @@ public class BoardTest {
         for(Ship s:ships){
             if(s.getKind() == "MINESWEEPER"){
                 assertFalse(board.checkShipBounds(s, 'u'));
+                assertTrue(board.checkShipBounds(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 1);
             }
         }
