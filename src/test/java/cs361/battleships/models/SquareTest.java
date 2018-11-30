@@ -47,4 +47,15 @@ public class SquareTest {
         assertFalse(square1.equals(square2));
         assertNotEquals(square1.hashCode(), square2.hashCode());
     }
+
+    @Test
+    public void testNewLocation(){
+        Square square1 = new Square(5, 'G');
+        Square square2 = new Square(9, 'A');
+
+        square1.newLocation('l');
+        assertEquals(square1.column, 'F');
+        square2.newLocation('l');
+        assertEquals(square2.column, 'A');
+    }
 }

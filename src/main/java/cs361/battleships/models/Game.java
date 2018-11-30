@@ -70,9 +70,5 @@ public class Game {
         return new Random().nextBoolean();
     }
 
-    public Board getOpponentsBoard(){
-        return opponentsBoard;
-    }
-
     public Board getPlayersBoard(){ return playersBoard; }
 }

@@ -2,8 +2,7 @@ package cs361.battleships.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -76,13 +75,6 @@ public class Board {
 		return true;
 	}
 
-	/*public boolean moveFleet(String direction){
-		for( Ship i : ships) {
-			boolean ret = i.moveFleet(direction);
-		}
-		return false;
-	}*/
-
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
 	 */
@@ -130,23 +122,18 @@ public class Board {
 		return ships;
 	}
 
-
-
-
-
 	public void moveFleet(char dir) {
-
 		//move all the locations in each ship
 		for (Ship s : ships) {
-			//check if the ship can be moved in the bounds of the board
-			boolean goodMove = moveShip(s, dir);
-			if(goodMove){
-				s.moveShip(dir);
-			}
+				//check if the ship can be moved in the bounds of the board
+				boolean goodMove = checkShipBounds(s, dir);
+				if (goodMove) {
+					s.moveShip(dir);
+				}
 		}
 	}
 
-	public boolean moveShip(Ship s, char dir) {
+	public boolean checkShipBounds(Ship s, char dir) {
 		//check if all squares are in bound,
 		//if out of bound, return false and don't move ship
 		for (Square sq : s.getOccupiedSquares()) {
@@ -170,5 +157,4 @@ public class Board {
 		}
 		return true;
 	}
-
 }

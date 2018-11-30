@@ -36,27 +36,4 @@ public class Result {
 	public Square getLocation() {
 		return location;
 	}
-
-	public void setLocation(Square s) { this.location = s; }
-
-	//changes the square based on the direction parameter
-/*	public void newLocation(char dir) {
-		Square movedSq = new Square(this.location.getRow(), this.location.getColumn());
-		if(dir == 'u' || dir == 'U'){
-			movedSq.setRow(location.getRow() + 1);
-		} else if(dir == 'd' || dir == 'D'){
-			movedSq.setRow(location.getRow() - 1);
-		} else if(dir == 'l' || dir == 'L'){
-			char newCol = movedSq.getColumn();
-			newCol = (char)(newCol-1);
-			movedSq.setColumn(newCol);
-		} else if(dir == 'r' || dir == 'R'){
-			char newCol = movedSq.getColumn();
-			newCol = (char)(newCol+1);
-			movedSq.setColumn(newCol);
-		}
-		if(!movedSq.isOutOfBounds()) {
-			setLocation(movedSq);
-		}
-	}*/
 }
