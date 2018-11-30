@@ -73,4 +73,6 @@ public class Game {
     public Board getOpponentsBoard(){
         return opponentsBoard;
     }
+
+    public Board getPlayersBoard(){ return playersBoard; }
 }

@@ -253,4 +253,10 @@ public class Ship {
 	public String toString() {
 		return kind + occupiedSquares.toString();
 	}
+
+	public void moveShip(char dir){
+		for(Square sq:occupiedSquares){
+			sq.newLocation(dir);
+		}
+	}
 }

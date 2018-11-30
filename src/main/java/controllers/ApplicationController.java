@@ -48,4 +48,11 @@ public class ApplicationController {
             return Results.badRequest();
         }
     }
+
+    public Result moveFleet(Context context, MoveGameAction g) {
+        Game game = g.getGame();
+        Board playerBoard = game.getPlayersBoard();
+        playerBoard.moveFleet(g.getDirection());
+        return Results.json().render(game);
+    }
 }
