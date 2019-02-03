@@ -13,8 +13,10 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        board = new Board();
-    }
+        board = new Board(); }
+
+        //small change here -- hello friends
+
 
     @Test
     public void testPlaceMinesweeper() {
