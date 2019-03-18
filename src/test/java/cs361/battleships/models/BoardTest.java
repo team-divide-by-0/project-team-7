@@ -132,40 +132,40 @@ public class BoardTest {
         board.moveFleet( 'd');
         for(Ship s: ships){
             if(s.getKind() == "DESTROYER"){
-                assertTrue(board.checkShipBounds(s, 'd'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 9);
             } else if(s.getKind() == "BATTLESHIP"){
-                assertTrue(board.checkShipBounds(s, 'd'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 4);
             }
         }
         board.moveFleet( 'u');
         for(Ship s: ships){
             if(s.getKind() == "DESTROYER"){
-                assertTrue(board.checkShipBounds(s, 'u'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'u'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 8);
             } else if(s.getKind() == "BATTLESHIP"){
-                assertTrue(board.checkShipBounds(s, 'u'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'u'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 3);
             }
         }
         board.moveFleet( 'l');
         for(Ship s: ships){
             if(s.getKind() == "DESTROYER"){
-                assertTrue(board.checkShipBounds(s, 'l'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'l'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'H');
             } else if(s.getKind() == "BATTLESHIP"){
-                assertTrue(board.checkShipBounds(s, 'l'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'l'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'G');
             }
         }
         board.moveFleet( 'r');
         for(Ship s: ships){
             if(s.getKind() == "DESTROYER"){
-                assertTrue(board.checkShipBounds(s, 'r'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'r'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'I');
             } else if(s.getKind() == "BATTLESHIP"){
-                assertTrue(board.checkShipBounds(s, 'r'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'r'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'H');
             }
         }
@@ -178,8 +178,8 @@ public class BoardTest {
         List<Ship> ships = board.getShips();
         for(Ship s:ships){
             if(s.getKind() == "MINESWEEPER"){
-                assertFalse(board.checkShipBounds(s, 'u'));
-                assertTrue(board.checkShipBounds(s, 'd'));
+                assertFalse(board.checkShipBoundsWithMove(s, 'u'));
+                assertTrue(board.checkShipBoundsWithMove(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 1);
             }
         }

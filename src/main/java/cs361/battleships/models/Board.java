@@ -173,6 +173,10 @@ public class Board {
 	}
 
 
+	public List<Ship> getShips() {
+		return ships;
+	}
+
 	public void moveFleet(char dir) {
 		//move all the locations in each ship
 		for (Ship s : ships) {
@@ -208,11 +212,11 @@ public class Board {
 		//if out of bound, return false and don't move ship
 		for (Square sq : s.getOccupiedSquares()) {
 			if (dir == 'u') {
-				if (sq.getRow() - 1 > 10 || sq.getRow() - 1 < 1) {
+				if (sq.getRow() - 1 < 1 || sq.getRow() - 1 > 10) {
 					return false;
 				}
 			} else if (dir == 'd') {
-				if (sq.getRow() + 1 > 10 || sq.getRow() + 1 < 1) {
+				if (sq.getRow() + 1 < 1 || sq.getRow() + 1 > 10) {
 					return false;
 				}
 			} else if (dir == 'l') {
