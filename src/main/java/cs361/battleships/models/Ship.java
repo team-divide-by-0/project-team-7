@@ -70,7 +70,7 @@ public class Ship {
 				occupiedSquares.add(new Square(row, (char) (col + i)));
 			}
 		}
-	}
+		}
 
 	public boolean overlaps(Ship other) {
 		Set<Square> thisSquares = Set.copyOf(getOccupiedSquares());

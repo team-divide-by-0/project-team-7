@@ -26,9 +26,9 @@ public class Minesweeper extends Ship {
         cqSquare.setHitsTilSunk(hitsTilSunk);
         occupiedSquares.add(cqSquare);   //set the captains quarter square
         if (isVertical) {    //set the non-captains quarter square
-            occupiedSquares.add(new Square(row-1, col));
+            occupiedSquares.add(new Square(row+1, col));
         } else {
-            occupiedSquares.add(new Square(row, (char) (col + 1)));
+            occupiedSquares.add(new Square(row, (char) (col+1)));
         }
         System.out.println("MINESWEEPER: " + occupiedSquares);
     }
