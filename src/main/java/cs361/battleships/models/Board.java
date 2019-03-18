@@ -118,6 +118,8 @@ public class Board {
 		return attackResult;
 	}
 
+	List <Ship> getShips(){ return ships; }
+
 	//once the sonar button is clicked, the square chosen by the user will
 	//expose the value of itself and 13 surrounding results
 	//returns a bool to use in game.java
@@ -206,19 +208,19 @@ public class Board {
 		//if out of bound, return false and don't move ship
 		for (Square sq : s.getOccupiedSquares()) {
 			if (dir == 'u') {
-				if (sq.getRow() - 1 > 1 || sq.getRow() - 1 < 10) {
+				if (sq.getRow() - 1 > 10 || sq.getRow() - 1 < 1) {
 					return false;
 				}
 			} else if (dir == 'd') {
-				if (sq.getRow() + 1 > 1 || sq.getRow() + 1 < 10) {
+				if (sq.getRow() + 1 > 10 || sq.getRow() + 1 < 1) {
 					return false;
 				}
 			} else if (dir == 'l') {
-				if (sq.getColumn() - 1 < 'J' || sq.getColumn() - 1 > 'A') {
+				if (sq.getColumn() - 1 < 'A' || sq.getColumn() - 1 > 'J') {
 					return false;
 				}
 			} else if (dir == 'r') {
-				if (sq.getColumn() + 1 < 'J' || sq.getColumn() + 1 > 'A') {
+				if (sq.getColumn() + 1 < 'A' || sq.getColumn() + 1 > 'J') {
 					return false;
 				}
 			}
