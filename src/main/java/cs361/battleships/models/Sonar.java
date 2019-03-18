@@ -5,16 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sonar {
+    @JsonProperty private List<Square> squares;
+    @JsonProperty private int usages;
 
     public List<Square> getSquares() {
         return squares;
     }
 
-    @JsonProperty private List<Square> squares;
-
     public Sonar(){
-        squares = new ArrayList<Square>();
+        squares = new ArrayList<Square>(); usages = 0;
     }
+
+    public int getUsages() { return usages; }
+    public void setUsages(int usages) { this.usages = usages; }
 
     public List<Square> getAllSquares(int x, char y){
 

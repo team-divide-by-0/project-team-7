@@ -37,16 +37,25 @@ public class ApplicationController {
     public Result attack(Context context, AttackGameAction g) {
         Game game = g.getGame();
         boolean result = true;
-        if(g.getIsSonar() == false) {
             result = game.attack(g.getActionRow(), g.getActionColumn());
-        } else if(g.getIsSonar() == true){
-            //result = game.sonarAttack(g.getActionRow(), g.getActionColumn());
-        }
         if (result) {
             return Results.json().render(game);
         } else {
             return Results.badRequest();
         }
+    }
+
+    public Result sonar(Context context, AttackGameAction g) {
+        Game game = g.getGame();
+        boolean result = game.sonarAttack(g.getActionRow(), g.getActionColumn());
+        //boolean result = game.attack(g.getActionRow(), g.getActionColumn());
+        //if(result){
+            return Results.json().render(game);
+       // } else {
+         //   return Results.badRequest();
+       // }
+        //return Results.json().render(game);
+
     }
 
     public Result moveFleet(Context context, MoveGameAction g) {

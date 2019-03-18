@@ -22,46 +22,52 @@ function makeGrid(table, isPlayer) {
         }
         table.appendChild(row);
     }
-    if (clicks == 0) {
+    if (sonarOn == false) {
         document.getElementById('sonar_button').style.display='none';
     }
 
 }
 
-
+var sonarOn = false;
+var trackFirstHit = 0;
 
 function markHits(board, elementId, surrenderText) {
+
     board.attacks.forEach((attack) => {
         let className;
-        //console.log(attack.result);
         if (attack.result === "MISS" || attack.result === "PROTECTED"){
             className = "miss";
-            //console.log("IN HERE " + attack.result);
         }
         else if (attack.result === "HIT")
             className = "hit";
         else if (attack.result === "SUNK"){
             className = "hit";
             trackFirstHit++;
-            if (trackFirstHit == 1){
+            if(trackFirstHit == 1){
+               sonarOn = true;
+               var sonarBut = document.getElementById('sonar_button');
+               sonarBut.style.display = "block";
+            }
+           /* if (sonarOff == true){
                var button = document.getElementById('sonar_button');
                button.style.display = "block";
+               trackFirstHit = false; //will never be changed
                console.log('At least I get here');
-            }
+            }*/
         }
         else if (attack.result === "SURRENDER")
             alert(surrenderText);
-       /* else if(attack.result === "PROTECTED"){
-            className = "protected"
-            console.log("I'm in here");
-        }*/
-        else if (attack.result === "REVEALED")
+        else if (attack.result === "REVEALED"){
             className = "revealed";
-        else if (attack.result === "OCCUPIED")
+            //console.log("in revealed else if block");
+        }
+        else if (attack.result === "OCCUPIED"){
             className = "occupied";
+        }
         //console.log(attack.location.row-1);
         //console.log(attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0));
-        document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+           document.getElementById(elementId).rows[attack.location.row-1].cells[attack.location.column.charCodeAt(0) - 'A'.charCodeAt(0)].classList.add(className);
+        //console.log(className);
     });
 
 }
@@ -121,6 +127,13 @@ function checkLaserConditions(){
 }
 
 function checkButtonConditions(){
+
+    let sonarBut = document.getElementById("sonar_button");
+    if(sonarOn == true){
+       sonarBut.style.display = "block";
+    } else{
+       sonarBut.style.display = "none";
+    }
 
     let moveButtons = document.getElementsByClassName("move");
 
@@ -214,13 +227,13 @@ function cellClick() {
     }
     else {
         if(isSonar){
-            sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonar: true}, function(data) {
+            sendXhr("POST", "/sonar", {game: game, x: row, y: col }, function(data) {
                 game = data;
                 redrawGrid();
                 isSonar = false;
             })
         } else {
-            sendXhr("POST", "/attack", {game: game, x: row, y: col, isSonar: false}, function(data) {
+            sendXhr("POST", "/attack", {game: game, x: row, y: col}, function(data) {
                             game = data;
                             redrawGrid();
                         })
@@ -287,9 +300,10 @@ function place(size, kind) {
     //is attack hit in miss
     //if (attack.result === "HIT"){
     //markHits(game.opponentsBoard, "opponent", "");
-    ++clicks;
+    clicks++;
     if (clicks >= 2){
         console.log("setting the button off");
+        sonarOn = false;
         document.getElementById("sonar_button").style.display = "none";
     }
     console.log("clicks:", clicks);

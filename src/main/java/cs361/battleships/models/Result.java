@@ -21,9 +21,11 @@ public class Result {
 		return result;
 	}
 
-	public void setResult(AtackStatus result) {
+	public void setResult( AtackStatus result) {
 		this.result = result;
 	}
+
+	public void setLocation( Square location) { this.location = location; }
 
 	public Ship getShip() {
 		return ship;
