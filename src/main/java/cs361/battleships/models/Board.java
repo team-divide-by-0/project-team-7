@@ -46,9 +46,9 @@ public class Board {
 		} else if (ship.getKind().equals("SUBMARINE")) {
 			getShip = new Submarine();
 		}
-		final var placedShip = getShip;
+		//final var placedShip = getShip;
+		var placedShip = getShip;
 		placedShip.place(y, x, isVertical);
-
 		for (Ship i : ships) {
 			if (i.overlaps(placedShip)) {
 				if (i instanceof Submarine) {
@@ -118,39 +118,107 @@ public class Board {
 		return attackResult;
 	}
 
-	List<Ship> getShips() {
-		return ships;
+	//once the sonar button is clicked, the square chosen by the user will
+	//expose the value of itself and 13 surrounding results
+	//returns a bool to use in game.java
+	public boolean activateSonar(int x, char y) {
+		List<Square> sonarSquares = sonar.getAllSquares(x, y);
+		List<Square> notGuessedOverlap = sonarSquares;
+
+		//if the result is already set, remove it from the array and do nothing
+		for (Result anAttack : attacks) {
+			if (sonarSquares.contains(anAttack.getLocation())) {
+				notGuessedOverlap.remove(anAttack.getLocation());
+			}
+		}
+			//checks if any of the ships contain the squares in the sonar range
+			// if a ship's square is in the sonar, check if it's been hit, change the result status to OCCUPIED,
+			//and add it to the attacks. remove from array when result is set
+			for (Ship ship : ships) {
+				for (Square shipSq : ship.getOccupiedSquares()) {
+					if (sonarSquares.contains(shipSq)) {
+						Result r = sonarResult(shipSq, AtackStatus.OCCUPIED, true, ship);
+						attacks.add(r);
+						notGuessedOverlap.remove(shipSq);
+					}
+				}
+			}
+			//all the remaining squares need to be colored gray, since they haven'nt been guessed yet and there
+			//is no ship on it. add a new result for each to attacks
+			for (Square sq : notGuessedOverlap) {
+				Ship none = null;
+				if(checkSquareBounds(sq)) {
+					Result r2 = sonarResult(sq, AtackStatus.REVEALED, false, none);
+					attacks.add(r2);
+				} else {
+					return false;
+				}
+			}
+
+			sonar.setUsages(sonar.getUsages()+1);
+		return true;
 	}
+
+	//allocates memory for and initializes a result to be added to the attacks list
+	private Result sonarResult(Square sq, AtackStatus classname, boolean hasShip, Ship ship){
+		Result r = new Result();
+		r.setLocation(sq);
+		r.setResult(classname);
+		if(hasShip) {
+			r.setShip(ship);
+		}
+		return r;
+	}
+
 
 	public void moveFleet(char dir) {
 		//move all the locations in each ship
 		for (Ship s : ships) {
 				//check if the ship can be moved in the bounds of the board
-				boolean goodMove = checkShipBounds(s, dir);
+				boolean goodMove = checkShipBoundsWithMove(s, dir);
 				if (goodMove) {
 					s.moveShip(dir);
 				}
 		}
 	}
 
-	public boolean checkShipBounds(Ship s, char dir) {
+	private boolean checkSquareBounds(Square square){
+
+		if (square.getRow() < 1 || square.getRow() > 10) { return false; }
+		if (square.getColumn() < 'A' || square.getColumn() > 'J'){ return false; }
+		return true;
+
+	}
+
+	//returns true or false based on all the squares returning true from checkSquareBounds()
+	private boolean checkShipBounds(Ship ship){
+		//if any of the squares are out of bounds, return false;
+		for(Square sq : ship.getOccupiedSquares()) {
+			if (checkSquareBounds(sq) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean checkShipBoundsWithMove(Ship s, char dir) {
 		//check if all squares are in bound,
 		//if out of bound, return false and don't move ship
 		for (Square sq : s.getOccupiedSquares()) {
 			if (dir == 'u') {
-				if (sq.getRow() - 1 > 10 || sq.getRow() - 1 < 1) {
+				if (sq.getRow() - 1 > 1 || sq.getRow() - 1 < 10) {
 					return false;
 				}
 			} else if (dir == 'd') {
-				if (sq.getRow() + 1 > 10 || sq.getRow() + 1 < 1) {
+				if (sq.getRow() + 1 > 1 || sq.getRow() + 1 < 10) {
 					return false;
 				}
 			} else if (dir == 'l') {
-				if (sq.getColumn() - 1 < 'A' || sq.getColumn() - 1 > 'J') {
+				if (sq.getColumn() - 1 < 'J' || sq.getColumn() - 1 > 'A') {
 					return false;
 				}
 			} else if (dir == 'r') {
-				if (sq.getColumn() + 1 < 'A' || sq.getColumn() + 1 > 'J') {
+				if (sq.getColumn() + 1 < 'J' || sq.getColumn() + 1 > 'A') {
 					return false;
 				}
 			}
