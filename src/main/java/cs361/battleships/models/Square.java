@@ -68,7 +68,7 @@ public class Square {
 	//Quick checker for if a sqaure is out of bounds
 	@JsonIgnore
 	public boolean isOutOfBounds() {
-		return row < 10 || row > 1 || column < 'J' || column > 'A';
+		return row > 10 || row < 1 || column > 'J' || column < 'A';
 	}
 
 	public boolean isHit() {
@@ -90,16 +90,16 @@ public class Square {
 	public void newLocation(char dir){
 		Square movedSq = new Square(row, column);
 		if(dir == 'd'){
-			int newRow = row-1;
-			movedSq.setRow(newRow);
-		} else if(dir == 'u'){
 			int newRow = row+1;
 			movedSq.setRow(newRow);
+		} else if(dir == 'u'){
+			int newRow = row-1;
+			movedSq.setRow(newRow);
 		} else if(dir == 'l'){
-			char newCol = (char)(column+1);
+			char newCol = (char)(column-1);
 			movedSq.setColumn(newCol);
 		} else if(dir == 'r'){
-			char newCol = (char)(column-1);
+			char newCol = (char)(column+1);
 			movedSq.setColumn(newCol);
 		}
 		if(!movedSq.isOutOfBounds()) {
