@@ -12,13 +12,16 @@ public class Sonar {
         return squares;
     }
 
+    //Constructor for Sonar class
     public Sonar(){
         squares = new ArrayList<Square>(); usages = 0;
     }
 
+    //getter/setter for number of sonars used
     public int getUsages() { return usages; }
     public void setUsages(int usages) { this.usages = usages; }
 
+    //Adds the sonar squares to a list of squares to be used when the sonar is called
     public List<Square> getAllSquares(int x, char y){
 
         for(int i = 0; i < 3; i++) {

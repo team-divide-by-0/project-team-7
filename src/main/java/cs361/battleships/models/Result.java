@@ -17,6 +17,7 @@ public class Result {
 		this.location = location;
 	}
 
+	//The below functions are just the getters and setters for the result class.
 	public AtackStatus getResult() {
 		return result;
 	}

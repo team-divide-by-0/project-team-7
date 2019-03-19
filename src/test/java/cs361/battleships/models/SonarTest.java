@@ -2,6 +2,7 @@ package cs361.battleships.models;
 
 import org.junit.Test;
 
+import java.util.List;
 import static org.junit.Assert.*;
 
 public class SonarTest {
@@ -22,6 +23,26 @@ public class SonarTest {
 
     @Test
     public void getAllSquares() {
+    }
+
+
+    //Justin's Tests
+    @Test
+    public void testSonarPlacement() {
+        Sonar mySonar = new Sonar();
+        assertTrue(mySonar.getSquares().add(new Square(4, 'D')));
+    }
+    @Test
+    public void testCornerSquare() {
+        Sonar mySonar = new Sonar();
+        assertTrue(mySonar.getSquares().add(new Square(0,'A')));
+    }
+    @Test
+    public void testSonarSquares() {
+        Sonar mySonar = new Sonar();
+        //mySonar.getSquares().add(new Square(4, 'D'));
+        List<Square> mySquares = mySonar.getAllSquares(4, 'D');
+        assertTrue(mySquares.size() == 13);
     }
 
 

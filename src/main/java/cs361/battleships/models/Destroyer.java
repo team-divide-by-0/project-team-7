@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use= JsonTypeInfo.Id.CLASS, property="@Destroyer")
 public class Destroyer extends Ship {
+    //Constructor for the Destroyer
     public Destroyer() {
         super();
         this.kind = "DESTROYER";
@@ -12,6 +13,9 @@ public class Destroyer extends Ship {
         this.submerged = 0;
     }
 
+    //This function adds a ship to the board by filling in the occupied squares array
+    //with the squares of the new ship. It uses the isVertical boolean to determine
+    //the orientation of the squares added
     @Override
     public void place(char col, int row, boolean isVertical) {
         if (isVertical) {

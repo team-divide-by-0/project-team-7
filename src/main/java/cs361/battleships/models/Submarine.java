@@ -7,6 +7,7 @@ import java.util.ArrayList;
 @JsonTypeInfo(use= JsonTypeInfo.Id.CLASS, property="@Ship")
 public class Submarine extends Ship{
 
+    //Constructor for the Submarine
     public Submarine() {
         super();
         this.kind = "SUBMARINE";
@@ -15,6 +16,9 @@ public class Submarine extends Ship{
         this.submerged = 0;
     }
 
+    //This function adds a ship to the board by filling in the occupied squares array
+    //with the squares of the new ship. It uses the isVertical boolean to determine
+    //the orientation of the squares added
     @Override
     public void place(char col, int row, boolean isVertical) {
         if (isVertical) {

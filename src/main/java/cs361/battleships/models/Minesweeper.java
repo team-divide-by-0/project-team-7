@@ -7,6 +7,7 @@ import java.util.List;
 
 @JsonTypeInfo(use= JsonTypeInfo.Id.CLASS, property="@Minesweeper")
 public class Minesweeper extends Ship {
+    //Constructor for the Minesweeper
     public Minesweeper() {
         super();
         this.kind = "MINESWEEPER";
@@ -18,7 +19,9 @@ public class Minesweeper extends Ship {
     }
 
 
-
+    //This function adds a ship to the board by filling in the occupied squares array
+    //with the squares of the new ship. It uses the isVertical boolean to determine
+    //the orientation of the squares added
     @Override
     public void place(char col, int row, boolean isVertical) {
         cqSquare.setColumn(col);
