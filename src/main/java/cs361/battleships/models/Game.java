@@ -15,6 +15,7 @@ public class Game {
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
+	This placeShip function calls the board's placeship function and returns a success or not
 	 */
     public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
         boolean successful = playersBoard.placeShip(ship, x, y, isVertical);
@@ -32,6 +33,7 @@ public class Game {
 
     /*
 	DO NOT change the signature of this method. It is used by the grading scripts.
+	This calls the board's attack function and returns if it was a valid attack or not.
 	 */
     public boolean attack(int x, char  y) {
         List<Result> playerAttack = opponentsBoard.attack(x, y);
@@ -47,24 +49,28 @@ public class Game {
 
         return true;
     }
-
+    //This is the driving function for the sonar, it calls the board's activateSonar function
     public boolean sonarAttack(int x, char y){
         return opponentsBoard.activateSonar(x,y);
     }
 
+    //These three function are for opponent placing and attacking
+    //Get random column
     private char randCol() {
         int random = new Random().nextInt(10);
         return (char) ('A' + random);
     }
-
+    //Get random row
     private int randRow() {
         return  new Random().nextInt(10) + 1;
     }
 
+    //Get a random boolean
     private boolean randVertical() {
         return new Random().nextBoolean();
     }
 
+    //Get the boards, again, I don't know what you were expecting
     public Board getPlayersBoard(){ return playersBoard; }
     public Board getOpponentsBoard() { return opponentsBoard; }
 }

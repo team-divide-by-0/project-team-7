@@ -12,10 +12,10 @@ public class Square {
 	@JsonProperty protected char column;
 	@JsonProperty private boolean hit = false;
 	protected int hitsTilSunk;
+	//Constructors for the square type
 	public Square() {
 		this.row = -1;
 		this.column = 'z';
-		//this.hitsTilSunk = -1;
 	}
 
 	public Square(int row, char column) {
@@ -23,7 +23,7 @@ public class Square {
 		this.column = column;
 	}
 
-
+	//Getters and setters for the square members
 	public int getHitsTilSunk() {
 		return hitsTilSunk;
 	}
@@ -50,6 +50,7 @@ public class Square {
 	}
 
 
+	//An equals function that returns the equality of two squares
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Square) {
@@ -58,11 +59,13 @@ public class Square {
 		return false;
 	}
 
+	//A converter function that helps move from numerical to character
 	@Override
 	public int hashCode() {
 		return 31 * row + column;
 	}
 
+	//Quick checker for if a sqaure is out of bounds
 	@JsonIgnore
 	public boolean isOutOfBounds() {
 		return row > 10 || row < 1 || column > 'J' || column < 'A';
@@ -82,6 +85,8 @@ public class Square {
 	}
 
 	//moves the row and column of current square based on the direction
+	//This is a helper function to the moveFleet function. It replaces the squares coordinates
+	//based on the direction given.
 	public void newLocation(char dir){
 		Square movedSq = new Square(row, column);
 		if(dir == 'd'){

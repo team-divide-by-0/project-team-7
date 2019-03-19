@@ -18,6 +18,7 @@ public class Board {
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
+	Constructor for the Board class.
 	 */
 	public Board() {
 		ships = new ArrayList<>();
@@ -28,6 +29,8 @@ public class Board {
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
+	This function places ships on the board by checking if they are either out of bounds or overlapping with
+	another ship on the board.
 	 */
 	public boolean placeShip(Ship ship, int x, char y, boolean isVertical) {
 		if (ships.size() >= 4) {
@@ -46,7 +49,7 @@ public class Board {
 		} else if (ship.getKind().equals("SUBMARINE")) {
 			getShip = new Submarine();
 		}
-		//final var placedShip = getShip;
+
 		var placedShip = getShip;
 		placedShip.place(y, x, isVertical);
 		for (Ship i : ships) {
@@ -60,14 +63,6 @@ public class Board {
 				}
 			}
 		}
-
-		/*if (ships.stream().anyMatch(s -> s.overlaps(placedShip))) {
-			if(placedShip instanceof Submarine){
-				((Submarine) placedShip).setSubmerged(1);
-				return true;
-			}
-			return false;
-		}*/
 		if (placedShip.getOccupiedSquares().stream().anyMatch(s -> s.isOutOfBounds())) {
 			return false;
 		}
@@ -77,6 +72,8 @@ public class Board {
 
 	/*
 	DO NOT change the signature of this method. It is used by the grading scripts.
+	This attacks function calls the more flushed out attack function and adds the attack to the
+	list of attacks.
 	 */
 	public List<Result> attack(int x, char y) {
 		List<Result> attackResult = attack(new Square(x, y));
@@ -85,8 +82,14 @@ public class Board {
 		}
 		return attackResult;
 	}
-
+	/*
+	This attacks function os the helper for the one above (or vice-versa). This function checks that a ship was at
+	the attacked coordinate and if it wasn't, add the attack to a list of attacks and return it. If it was, it
+	checks if the attack has sunk the ship. If it did, add it to a sunk ships list and check if all of the ships
+	had been sunk. If they had, throw a surrender.
+	 */
 	private List<Result> attack(Square s) {
+		//Is the hit successful?
 		var shipsAtLocation = ships.stream().filter(ship -> ship.isAtLocation(s)).collect(Collectors.toList());
 		if (shipsAtLocation.size() == 0) {
 			s.hit();
@@ -95,6 +98,7 @@ public class Board {
 			r.add(attackResult);
 			return r;
 		}
+		//Did the hit sink a ship?
 		var hitShip = shipsAtLocation.get(0);
 
 		List<Result> attackResult = hitShip.attack(s.getRow(), s.getColumn());
@@ -104,6 +108,7 @@ public class Board {
 				attackResult.get(0).setResult(AtackStatus.SURRENDER);
 			}
 		}
+		//Are all the ships sunk?
 		if(shipsAtLocation.size() == 2 && sunkShips.size() > 0){
 			hitShip = shipsAtLocation.get(1);
 
@@ -117,8 +122,6 @@ public class Board {
 		}
 		return attackResult;
 	}
-
-	List <Ship> getShips(){ return ships; }
 
 	//once the sonar button is clicked, the square chosen by the user will
 	//expose the value of itself and 13 surrounding results
@@ -172,7 +175,7 @@ public class Board {
 		return r;
 	}
 
-
+	//get the ships, what did you expect?
 	public List<Ship> getShips() {
 		return ships;
 	}
@@ -187,7 +190,7 @@ public class Board {
 				}
 		}
 	}
-
+	//This function checks if a given square is within the bounds of a board.
 	private boolean checkSquareBounds(Square square){
 
 		if (square.getRow() < 1 || square.getRow() > 10) { return false; }
@@ -210,6 +213,7 @@ public class Board {
 	public boolean checkShipBoundsWithMove(Ship s, char dir) {
 		//check if all squares are in bound,
 		//if out of bound, return false and don't move ship
+		//directions are up, down, left, right
 		for (Square sq : s.getOccupiedSquares()) {
 			if (dir == 'u') {
 				if (sq.getRow() - 1 < 1 || sq.getRow() - 1 > 10) {
