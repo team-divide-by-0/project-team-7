@@ -118,6 +118,8 @@ public class Board {
 		return attackResult;
 	}
 
+	List <Ship> getShips(){ return ships; }
+
 	//once the sonar button is clicked, the square chosen by the user will
 	//expose the value of itself and 13 surrounding results
 	//returns a bool to use in game.java
