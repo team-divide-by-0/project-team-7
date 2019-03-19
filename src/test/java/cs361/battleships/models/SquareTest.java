@@ -68,6 +68,4 @@ public class SquareTest {
         square8.newLocation('l');
         assertEquals(square8.column, 'A');
     }
-
-    //Justin's Tests
 }

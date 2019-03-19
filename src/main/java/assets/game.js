@@ -407,3 +407,12 @@ function sonarHover() {
     }
     sonarBut.removeEventListener("click", sonarHover());
 }
+
+function dBox() {
+    var dirbox = document.getElementById("vis")
+    if (dirbox.style.visibility == 'hidden') {
+        dirbox.style.visibility = "visible";
+    } else {
+        dirbox.style.visibility = "hidden";
+    }
+}

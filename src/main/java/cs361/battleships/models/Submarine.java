@@ -13,7 +13,7 @@ public class Submarine extends Ship{
         this.kind = "SUBMARINE";
         this.hitsTilSunk= 2;
         this.size = 5;
-        this.submerged = 0;
+        this.submerged = 1;
     }
 
     //This function adds a ship to the board by filling in the occupied squares array

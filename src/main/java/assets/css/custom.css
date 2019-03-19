@@ -4,6 +4,7 @@ body {
     background-color: #c9c2c1;
 }
 .direction-box {
+
     background-color: #6e76dd;
     border-style: solid;
     width: 320px;
@@ -16,6 +17,12 @@ body {
 
 .text-in-box {
 
+}
+.dirButton {
+    background-color: #6e76dd;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
 }
 
 .win-button{
@@ -196,5 +203,9 @@ button.move{
 
     position: relative;
     top: -360px;
+}
+
+#vis{
+visibility: hidden;
 }
 
