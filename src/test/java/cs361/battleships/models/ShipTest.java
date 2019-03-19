@@ -10,6 +10,34 @@ import static org.junit.Assert.*;
 public class ShipTest {
 
     @Test
+    public void testPlace() {
+        Ship minesweeper = new Ship("MINESWEEPER");
+        minesweeper.place('C', 1, false);
+        Ship destroyer = new Ship ("DESTROYER");
+        destroyer.place('D', 2, false);
+        Ship battleship = new Ship("BATTLESHIP");
+        battleship.place('E', 3, false);
+        List<Square> moccupiedSquares = minesweeper.getOccupiedSquares();
+        ArrayList<Object> mexpected = new ArrayList<>();
+        mexpected.add(new Square(1, 'C'));
+        mexpected.add(new Square(1, 'D'));
+        assertEquals(mexpected, moccupiedSquares);
+        List<Square> doccupiedSquares = destroyer.getOccupiedSquares();
+        ArrayList<Object> dexpected = new ArrayList<>();
+        dexpected.add(new Square(2, 'D'));
+        dexpected.add(new Square(2, 'E'));
+        dexpected.add(new Square(2, 'F'));
+        assertEquals(dexpected, doccupiedSquares);
+        List<Square> boccupiedSquares = battleship.getOccupiedSquares();
+        ArrayList<Object> bexpected = new ArrayList<>();
+        bexpected.add(new Square(3, 'E'));
+        bexpected.add(new Square(3, 'F'));
+        bexpected.add(new Square(3, 'G'));
+        bexpected.add(new Square(3, 'H'));
+        assertEquals(bexpected, boccupiedSquares);
+    }
+
+    @Test
     public void testPlaceMinesweeperHorizontally() {
         Ship minesweeper = new Minesweeper();
         minesweeper.place('C', 1, false);
@@ -137,21 +165,6 @@ public class ShipTest {
         assertEquals(new Square(1, 'A'), result.get(0).getLocation());
     }
 
-    /*@Test
-    public void testHitsTilSunk(){
-        var minesweeper = new Minesweeper();
-        minesweeper.place('A',1,true);
-        minesweeper.attack(1,'A');
-        assertEquals(0,minesweeper.getHitsTilSunk());
-
-        var battle = new Battleship();
-        battle.place('B',5,false);
-        battle.attack(5,'D');
-        assertEquals(1,battle.getHitsTilSunk());
-        battle.attack(5,'D');
-        assertEquals(0,battle.getHitsTilSunk());
-    }*/
-
     @Test
     public void testOverlapsBug() {
         Ship minesweeper = new Minesweeper();
@@ -161,7 +174,7 @@ public class ShipTest {
         assertTrue(minesweeper.overlaps(destroyer));
     }
 
-   @Test
+    @Test
     public void testAttackSameSquareTwice() {
         Ship minesweeper = new Minesweeper();
         minesweeper.place('A', 1, true);
@@ -182,35 +195,134 @@ public class ShipTest {
     }
 
     @Test
-    public void testCaptainsQuartersStatus(){
+    public void testCaptainsQuartersStatus() {
         Ship battle = new Battleship();
-        battle.place('A',1, false);
+        battle.place('A', 1, false);
         battle.attack(1, 'C');
         List<Result> result = battle.attack(1, 'C');
         assertEquals(AtackStatus.SUNK, result.get(0).getResult());
 
         Ship minesweeper = new Minesweeper();
-        minesweeper.place('A',3,false);
-        result = minesweeper.attack(3,'A');
+        minesweeper.place('A', 3, false);
+        result = minesweeper.attack(3, 'A');
         assertEquals(AtackStatus.SUNK, result.get(0).getResult());
     }
 
     @Test
-    public void testMoveFleet(){
+    public void testMoveFleetRight() {
         Ship s = new Minesweeper();
         s.place('A', 1, false);
         s.moveFleet("right");
         boolean correct = true;
-        if(s.getOccupiedSquares().get(0).getColumn() != 'B'){
+        if (s.getOccupiedSquares().get(0).getColumn() != 'B') {
             correct = false;
         }
-        if(s.getOccupiedSquares().get(0).getRow() != 1){
+        if (s.getOccupiedSquares().get(0).getRow() != 1) {
             correct = false;
         }
-        if(s.getOccupiedSquares().get(1).getColumn() != 'C'){
+        if (s.getOccupiedSquares().get(1).getColumn() != 'C') {
             correct = false;
         }
-        if(s.getOccupiedSquares().get(1).getRow() != 1){
+        if (s.getOccupiedSquares().get(1).getRow() != 1) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+
+    @Test
+    public void testMoveFleetLeft(){
+        Ship s = new Destroyer();
+        s.place('G', 3, false);
+        s.moveFleet("left");
+        boolean correct = true;
+        if(s.getOccupiedSquares().get(0).getColumn() != 'F'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(0).getRow() != 3){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getColumn() != 'G'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getRow() != 3){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(2).getColumn() != 'H'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(2).getRow() != 3) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+
+    @Test
+    public void testMoveFleetDown(){
+        Ship s = new Battleship();
+        s.place('A', 3, false);
+        s.moveFleet("down");
+        boolean correct = true;
+        if(s.getOccupiedSquares().get(0).getColumn() != 'A'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(0).getRow() != 4){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getColumn() != 'B'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getRow() != 4){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(2).getColumn() != 'C'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(2).getRow() != 4) {
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(3).getColumn() != 'D'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(3).getRow() != 4) {
+            correct = false;
+        }
+        assertTrue(correct);
+    }
+
+    @Test
+    public void testMoveFleetUp(){
+        Ship s = new Submarine();
+        s.place('A', 3, false);
+        s.moveFleet("up");
+        boolean correct = true;
+        if(s.getOccupiedSquares().get(0).getColumn() != 'A'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(0).getRow() != 2){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getColumn() != 'B'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(1).getRow() != 2){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(2).getColumn() != 'C'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(2).getRow() != 2) {
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(4).getColumn() != 'D'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(4).getRow() != 2) {
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(3).getColumn() != 'C'){
+            correct = false;
+        }
+        if(s.getOccupiedSquares().get(3).getRow() != 1) {
             correct = false;
         }
         assertTrue(correct);
