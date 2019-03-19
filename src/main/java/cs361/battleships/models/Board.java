@@ -194,17 +194,6 @@ public class Board {
 
 	}
 
-	//returns true or false based on all the squares returning true from checkSquareBounds()
-	private boolean checkShipBounds(Ship ship){
-		//if any of the squares are out of bounds, return false;
-		for(Square sq : ship.getOccupiedSquares()) {
-			if (checkSquareBounds(sq) == false) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	public boolean checkShipBoundsWithMove(Ship s, char dir) {
 		//check if all squares are in bound,
 		//if out of bound, return false and don't move ship

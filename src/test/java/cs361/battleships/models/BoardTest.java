@@ -2,6 +2,7 @@ package cs361.battleships.models;
 
 import org.junit.Before;
 import org.junit.Test;
+import java.util.Random;
 
 import java.util.List;
 
@@ -10,45 +11,67 @@ import static org.junit.Assert.*;
 public class BoardTest {
 
     private Board board;
+    private int X;
+    private int BX;
+    private char Y, BY;
+    private Boolean bool;
 
     @Before
     public void setUp() {
-        board = new Board(); }
-
-        //small change here -- hello friends
-
-
+        board = new Board();
+        Random rand = new Random();
+        X = rand.nextInt(6)+1;
+        Y = (char) (rand.nextInt(6) + 66);
+        bool = rand.nextBoolean();
+        BX = rand.nextInt(20) - 5;
+        while(BX < 10 && BX > 1) {
+            BX = rand.nextInt(20) -5;
+        }
+        BY = (char) (rand.nextInt(20)-5);
+        while(BY < 'J' && BY > 'A') {
+            BY = (char) (rand.nextInt(20) - 5);
+        }
+    }
+    // these test test valid ship placement and invalid ship placement.
     @Test
     public void testPlaceMinesweeper() {
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', true));
-        assertFalse(board.placeShip(new Ship("DESTROYER"), 0, 'A', true));
-        //this tests when the ship goes off the board horizontally
-        assertFalse(board.placeShip(new Ship("BATTLESHIP"), 4, 'I', false));
-        //this tests when the ship goes off the board vertically
-        assertFalse(board.placeShip(new Ship("BATTLESHIP"), 9, 'B', true));
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), X, Y, bool));
+    }
+    @Test
+    public void testPlaceDestroyer() {
+        assertTrue(board.placeShip(new Ship("DESTROYER"), X, Y, bool));
     }
 
+    @Test
+    public void testPlaceBattleShip() {
+        assertTrue(board.placeShip(new Ship("BATTLESHIP"), X, Y, bool));
+    }
     @Test
     public void testPlaceSubmarine() {
-        Board board = new Board();
-        assertTrue(board.placeShip(new Ship("SUBMARINE"), 2, 'A', false));
+        assertTrue(board.placeShip(new Ship("SUBMARINE"), X, Y, bool));
     }
-
     @Test
-    public void testValidPlacement(){
-        Board board = new Board();
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 4, 'B', false));
-        assertTrue(board.placeShip(new Ship("DESTROYER"), 5, 'G', true));
-        assertTrue(board.placeShip(new Ship("BATTLESHIP"), 1, 'A', false));
+    public void testPlaceBadMinsweeper() {
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"), BX, BY, bool));
+    }
+    @Test
+    public void testPlaceBadDestroyer() {
+        assertFalse(board.placeShip(new Ship("DESTROYER"), BX, BY, bool));
+    }
+    @Test
+    public void testPlaceBadBattleShip() {
+        assertFalse(board.placeShip(new Ship("BATTLESHIP"), BX, BY, bool));
+    }
+    @Test
+    public void testPlaceBadSubmarine() {
+        assertFalse(board.placeShip(new Ship("SUBMARINE"), BX, BY, bool));
     }
 
+    //This function test if you can place multiple of the same type of ship.
     @Test
     public void testSameShip(){
-        Board board = new Board();
-        assertTrue(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false));
-        assertFalse(board.placeShip(new Ship("MINESWEEPER"), 1, 'A', false));
-        assertTrue(board.placeShip(new Ship("DESTROYER"), 5, 'C', false));
-        assertFalse(board.placeShip(new Ship("DESTROYER"), 3, 'C', true));
+        assertTrue(board.placeShip(new Ship("MINESWEEPER"), X, Y, bool));
+        assertFalse(board.placeShip(new Ship("MINESWEEPER"), X, Y, bool));
     }
 
     @Test
@@ -131,40 +154,40 @@ public class BoardTest {
 
         board.moveFleet( 'd');
         for(Ship s: ships){
-            if(s.getKind() == "DESTROYER"){
+            if(s.getKind().equals("DESTROYER")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 9);
-            } else if(s.getKind() == "BATTLESHIP"){
+            } else if(s.getKind().equals("BATTLESHIP")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 4);
             }
         }
         board.moveFleet( 'u');
         for(Ship s: ships){
-            if(s.getKind() == "DESTROYER"){
+            if(s.getKind().equals("DESTROYER")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'u'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 8);
-            } else if(s.getKind() == "BATTLESHIP"){
+            } else if(s.getKind().equals("BATTLESHIP")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'u'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 3);
             }
         }
         board.moveFleet( 'l');
         for(Ship s: ships){
-            if(s.getKind() == "DESTROYER"){
+            if(s.getKind().equals("DESTROYER")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'l'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'H');
-            } else if(s.getKind() == "BATTLESHIP"){
+            } else if(s.getKind().equals("BATTLESHIP")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'l'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'G');
             }
         }
         board.moveFleet( 'r');
         for(Ship s: ships){
-            if(s.getKind() == "DESTROYER"){
+            if(s.getKind().equals("DESTROYER")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'r'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'I');
-            } else if(s.getKind() == "BATTLESHIP"){
+            } else if(s.getKind().equals("BATTLESHIP")){
                 assertTrue(board.checkShipBoundsWithMove(s, 'r'));
                 assertEquals(s.getOccupiedSquares().get(0).getColumn(), 'H');
             }
@@ -177,11 +200,19 @@ public class BoardTest {
         board.moveFleet('u');
         List<Ship> ships = board.getShips();
         for(Ship s:ships){
-            if(s.getKind() == "MINESWEEPER"){
+            if(s.getKind().equals("MINESWEEPER")){
                 assertFalse(board.checkShipBoundsWithMove(s, 'u'));
                 assertTrue(board.checkShipBoundsWithMove(s, 'd'));
                 assertEquals(s.getOccupiedSquares().get(0).getRow(), 1);
             }
         }
     }
+
+    @Test
+    public void testActivateSonar(){
+        board.placeShip(new Minesweeper(), 5, 'C', false);
+        assertTrue(board.activateSonar(5, 'C'));
+
+    }
+
 }
